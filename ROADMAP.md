@@ -40,7 +40,7 @@ flowchart LR
 | CI (conformance + demo smoke) | ✅ |
 
 **Exit criteria:** Two independent implementations parse the same compact string to identical JSON.  
-✅ TypeScript (`@lar-1/core`) and Python (`lar-1`) both pass conformance fixtures.
+✅ TypeScript (`@lar-1/core`) and Python (`lar1semantic`) both pass conformance fixtures.
 
 ---
 

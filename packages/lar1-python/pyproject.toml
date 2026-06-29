@@ -3,14 +3,14 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "lar-1"
+name = "lar1semantic"
 version = "0.3.0"
 description = "Reference Python implementation of LAR-1 semantic overlay"
 readme = "README.md"
 license = "MIT"
 requires-python = ">=3.10"
 authors = [{ name = "LAR-1 contributors" }]
-keywords = ["lar-1", "agent", "mcp", "a2a", "semantic-overlay"]
+keywords = ["lar1semantic", "lar-1", "agent", "mcp", "a2a", "semantic-overlay"]
 classifiers = [
   "Development Status :: 4 - Beta",
   "Intended Audience :: Developers",

@@ -34,7 +34,7 @@ node dist/cli.js validate "LAR:C=obs,L=0.9"
 
 ---
 
-## PyPI (`lar-1`)
+## PyPI (`lar1semantic`)
 
 ### Prerequisites
 
