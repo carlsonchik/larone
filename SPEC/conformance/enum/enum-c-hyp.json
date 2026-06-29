@@ -1,0 +1,10 @@
+{
+  "id": "enum-c-hyp",
+  "description": "Enum coverage: C=hyp",
+  "input": "LAR:C=hyp",
+  "expected": {
+    "LAR-1": {
+      "C": "hyp"
+    }
+  }
+}

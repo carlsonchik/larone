@@ -1,0 +1,12 @@
+{
+  "id": "valid-02-minimal",
+  "description": "Progressive disclosure — cognition and likelihood only",
+  "input": "LAR:C=inf,L=0.72,V=unverified",
+  "expected": {
+    "LAR-1": {
+      "C": "inf",
+      "L": 0.72,
+      "V": "unverified"
+    }
+  }
+}

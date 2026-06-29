@@ -1,0 +1,15 @@
+{
+  "id": "valid-01-full",
+  "description": "All six fields populated",
+  "input": "LAR:T=now,S=here,C=obs,E=direct,L=0.95,V=verified_tool",
+  "expected": {
+    "LAR-1": {
+      "T": "now",
+      "S": "here",
+      "C": "obs",
+      "E": "direct",
+      "L": 0.95,
+      "V": "verified_tool"
+    }
+  }
+}

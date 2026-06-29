@@ -1,0 +1,14 @@
+{
+  "id": "valid-06-detection",
+  "description": "Detection stance with direct evidence",
+  "input": "LAR:T=now,C=det,E=direct,L=0.99,V=verified_tool",
+  "expected": {
+    "LAR-1": {
+      "T": "now",
+      "C": "det",
+      "E": "direct",
+      "L": 0.99,
+      "V": "verified_tool"
+    }
+  }
+}

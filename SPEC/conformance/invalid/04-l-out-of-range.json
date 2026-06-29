@@ -1,0 +1,6 @@
+{
+  "id": "invalid-04-l-out-of-range",
+  "description": "Likelihood above 1.0",
+  "input": "LAR:C=inf,L=1.5",
+  "error": "INVALID_LIKELIHOOD"
+}

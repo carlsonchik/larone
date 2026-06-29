@@ -1,0 +1,10 @@
+{
+  "id": "enum-s-here",
+  "description": "Enum coverage: S=here",
+  "input": "LAR:S=here",
+  "expected": {
+    "LAR-1": {
+      "S": "here"
+    }
+  }
+}

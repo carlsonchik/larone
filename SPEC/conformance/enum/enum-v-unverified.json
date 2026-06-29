@@ -1,0 +1,10 @@
+{
+  "id": "enum-v-unverified",
+  "description": "Enum coverage: V=unverified",
+  "input": "LAR:V=unverified",
+  "expected": {
+    "LAR-1": {
+      "V": "unverified"
+    }
+  }
+}

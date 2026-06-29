@@ -1,0 +1,6 @@
+{
+  "id": "invalid-01-missing-prefix",
+  "description": "Compact string without LAR: prefix",
+  "input": "T=now,C=obs,L=0.5",
+  "error": "MISSING_PREFIX"
+}

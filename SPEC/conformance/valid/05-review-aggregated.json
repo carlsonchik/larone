@@ -1,0 +1,15 @@
+{
+  "id": "valid-05-review-aggregated",
+  "description": "Past review with aggregated evidence and human verification",
+  "input": "LAR:T=past,S=here,C=rev,E=aggregated,L=0.88,V=verified_human",
+  "expected": {
+    "LAR-1": {
+      "T": "past",
+      "S": "here",
+      "C": "rev",
+      "E": "aggregated",
+      "L": 0.88,
+      "V": "verified_human"
+    }
+  }
+}

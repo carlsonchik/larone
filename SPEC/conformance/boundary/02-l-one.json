@@ -1,0 +1,12 @@
+{
+  "id": "boundary-02-l-one",
+  "description": "Maximum likelihood L=1",
+  "input": "LAR:C=det,L=1,V=verified_tool",
+  "expected": {
+    "LAR-1": {
+      "C": "det",
+      "L": 1,
+      "V": "verified_tool"
+    }
+  }
+}

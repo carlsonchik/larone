@@ -1,0 +1,10 @@
+{
+  "id": "enum-t-now",
+  "description": "Enum coverage: T=now",
+  "input": "LAR:T=now",
+  "expected": {
+    "LAR-1": {
+      "T": "now"
+    }
+  }
+}

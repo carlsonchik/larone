@@ -1,0 +1,15 @@
+{
+  "id": "valid-04-hypothesis",
+  "description": "Future hypothesis with derived evidence",
+  "input": "LAR:T=future,S=meta,C=hyp,E=derived,L=0.33,V=unverified",
+  "expected": {
+    "LAR-1": {
+      "T": "future",
+      "S": "meta",
+      "C": "hyp",
+      "E": "derived",
+      "L": 0.33,
+      "V": "unverified"
+    }
+  }
+}

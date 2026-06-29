@@ -1,0 +1,10 @@
+{
+  "id": "enum-e-aggregated",
+  "description": "Enum coverage: E=aggregated",
+  "input": "LAR:E=aggregated",
+  "expected": {
+    "LAR-1": {
+      "E": "aggregated"
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "id": "enum-s-meta",
+  "description": "Enum coverage: S=meta",
+  "input": "LAR:S=meta",
+  "expected": {
+    "LAR-1": {
+      "S": "meta"
+    }
+  }
+}

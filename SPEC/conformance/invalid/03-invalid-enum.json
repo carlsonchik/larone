@@ -1,0 +1,6 @@
+{
+  "id": "invalid-03-invalid-enum",
+  "description": "Cognition value not in enum",
+  "input": "LAR:C=guess,L=0.5",
+  "error": "INVALID_ENUM"
+}

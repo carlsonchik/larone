@@ -1,0 +1,10 @@
+{
+  "id": "enum-l-zero",
+  "description": "Likelihood coverage: L=0",
+  "input": "LAR:L=0",
+  "expected": {
+    "LAR-1": {
+      "L": 0
+    }
+  }
+}

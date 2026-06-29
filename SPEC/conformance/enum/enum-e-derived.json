@@ -1,0 +1,10 @@
+{
+  "id": "enum-e-derived",
+  "description": "Enum coverage: E=derived",
+  "input": "LAR:E=derived",
+  "expected": {
+    "LAR-1": {
+      "E": "derived"
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "id": "enum-t-future",
+  "description": "Enum coverage: T=future",
+  "input": "LAR:T=future",
+  "expected": {
+    "LAR-1": {
+      "T": "future"
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "id": "enum-v-verified-tool",
+  "description": "Enum coverage: V=verified_tool",
+  "input": "LAR:V=verified_tool",
+  "expected": {
+    "LAR-1": {
+      "V": "verified_tool"
+    }
+  }
+}

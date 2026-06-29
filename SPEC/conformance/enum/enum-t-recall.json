@@ -1,0 +1,10 @@
+{
+  "id": "enum-t-recall",
+  "description": "Enum coverage: T=recall",
+  "input": "LAR:T=recall",
+  "expected": {
+    "LAR-1": {
+      "T": "recall"
+    }
+  }
+}

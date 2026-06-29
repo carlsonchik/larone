@@ -1,0 +1,6 @@
+{
+  "id": "invalid-02-unknown-key",
+  "description": "Unknown field key X",
+  "input": "LAR:T=now,X=bad,C=obs",
+  "error": "UNKNOWN_KEY"
+}

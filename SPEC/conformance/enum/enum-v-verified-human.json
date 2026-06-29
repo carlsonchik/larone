@@ -1,0 +1,10 @@
+{
+  "id": "enum-v-verified-human",
+  "description": "Enum coverage: V=verified_human",
+  "input": "LAR:V=verified_human",
+  "expected": {
+    "LAR-1": {
+      "V": "verified_human"
+    }
+  }
+}

@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://lar-1.dev/schema/v0.2/lar1-schema.json",
+  "title": "LAR-1 Semantic Overlay",
+  "description": "JSON Schema for Content-Type: application/lar+json. LAR-1 adds temporal, spatial, cognitive, evidential, confidence, and verification dimensions to agent messages.",
+  "type": "object",
+  "required": ["LAR-1"],
+  "additionalProperties": false,
+  "properties": {
+    "LAR-1": {
+      "$ref": "#/$defs/lar1Fields"
+    }
+  },
+  "$defs": {
+    "lar1Fields": {
+      "type": "object",
+      "description": "Semantic overlay fields. All fields are optional; agents may send a subset (progressive disclosure).",
+      "additionalProperties": false,
+      "properties": {
+        "T": {
+          "type": "string",
+          "description": "Temporal frame — when the content applies.",
+          "enum": ["now", "past", "recall", "future"]
+        },
+        "S": {
+          "type": "string",
+          "description": "Spatial / contextual frame — where the content is situated.",
+          "enum": ["here", "there", "meta"]
+        },
+        "C": {
+          "type": "string",
+          "description": "Cognitive stance — what kind of mental move this message represents.",
+          "enum": ["obs", "hyp", "mem", "det", "inf", "rev"]
+        },
+        "E": {
+          "type": "string",
+          "description": "Evidential grounding — how the claim is supported.",
+          "enum": ["direct", "derived", "aggregated", "reported"]
+        },
+        "L": {
+          "type": "number",
+          "description": "Likelihood / confidence score (0.0 = none, 1.0 = certain).",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "V": {
+          "type": "string",
+          "description": "Verification status for the confidence and evidence claims.",
+          "enum": [
+            "unverified",
+            "verified_human",
+            "verified_tool",
+            "verified_crossref"
+          ]
+        }
+      },
+      "minProperties": 1
+    }
+  },
+  "x-lar1-compact-format": {
+    "version": "0.2",
+    "summary": "Human-readable inline representation prefixed with LAR:",
+    "grammar": {
+      "production": "compact ::= \"LAR:\" pair ( \",\" pair )*",
+      "pair": "pair ::= KEY \"=\" VALUE",
+      "KEY": "One of: T | S | C | E | L | V (case-sensitive, uppercase)",
+      "VALUE": "enum literal for T,S,C,E,V | decimal for L (0..1 inclusive)",
+      "separator": "Comma between pairs; no spaces required but allowed after commas",
+      "prefix": "Must start with literal LAR: (case-sensitive)",
+      "order": "Pairs may appear in any order; duplicate keys are invalid (last wins is NOT defined — parsers MUST reject duplicates)",
+      "empty": "Empty string or LAR: alone is invalid (at least one pair required)"
+    },
+    "fieldValues": {
+      "T": ["now", "past", "recall", "future"],
+      "S": ["here", "there", "meta"],
+      "C": ["obs", "hyp", "mem", "det", "inf", "rev"],
+      "E": ["direct", "derived", "aggregated", "reported"],
+      "L": "number in [0, 1]",
+      "V": [
+        "unverified",
+        "verified_human",
+        "verified_tool",
+        "verified_crossref"
+      ]
+    },
+    "examples": [
+      "LAR:T=now,S=here,C=obs,E=direct,L=0.95,V=verified_tool",
+      "LAR:C=inf,L=0.6,V=unverified",
+      "LAR:T=recall,S=there,C=mem,E=reported,L=0.4"
+    ],
+    "mappingToJson": {
+      "description": "Each KEY=VALUE pair maps to the same key inside the LAR-1 object. L is parsed as JSON number.",
+      "envelope": "Compact format represents the inner object only; serializers wrap as { \"LAR-1\": { ... } } for application/lar+json"
+    }
+  }
+}

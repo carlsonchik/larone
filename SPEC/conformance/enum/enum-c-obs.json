@@ -1,0 +1,10 @@
+{
+  "id": "enum-c-obs",
+  "description": "Enum coverage: C=obs",
+  "input": "LAR:C=obs",
+  "expected": {
+    "LAR-1": {
+      "C": "obs"
+    }
+  }
+}

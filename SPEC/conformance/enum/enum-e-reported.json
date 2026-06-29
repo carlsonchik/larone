@@ -1,0 +1,10 @@
+{
+  "id": "enum-e-reported",
+  "description": "Enum coverage: E=reported",
+  "input": "LAR:E=reported",
+  "expected": {
+    "LAR-1": {
+      "E": "reported"
+    }
+  }
+}

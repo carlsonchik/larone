@@ -1,0 +1,10 @@
+{
+  "id": "enum-e-direct",
+  "description": "Enum coverage: E=direct",
+  "input": "LAR:E=direct",
+  "expected": {
+    "LAR-1": {
+      "E": "direct"
+    }
+  }
+}

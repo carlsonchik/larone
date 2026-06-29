@@ -1,0 +1,10 @@
+{
+  "id": "enum-l-half",
+  "description": "Likelihood coverage: L=0.5",
+  "input": "LAR:L=0.5",
+  "expected": {
+    "LAR-1": {
+      "L": 0.5
+    }
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "id": "boundary-04-empty-string",
+  "description": "Empty input",
+  "input": "",
+  "error": "EMPTY_INPUT"
+}

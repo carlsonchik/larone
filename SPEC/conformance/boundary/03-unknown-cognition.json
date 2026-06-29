@@ -1,0 +1,6 @@
+{
+  "id": "boundary-03-unknown-cognition",
+  "description": "Unknown cognition enum value",
+  "input": "LAR:C=unknown,L=0.5",
+  "error": "INVALID_ENUM"
+}

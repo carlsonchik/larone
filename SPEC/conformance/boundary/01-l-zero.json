@@ -1,0 +1,12 @@
+{
+  "id": "boundary-01-l-zero",
+  "description": "Minimum likelihood L=0",
+  "input": "LAR:C=obs,L=0,V=unverified",
+  "expected": {
+    "LAR-1": {
+      "C": "obs",
+      "L": 0,
+      "V": "unverified"
+    }
+  }
+}

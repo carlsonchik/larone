@@ -1,0 +1,6 @@
+{
+  "id": "boundary-05-prefix-only",
+  "description": "LAR: prefix with no pairs",
+  "input": "LAR:",
+  "error": "NO_PAIRS"
+}

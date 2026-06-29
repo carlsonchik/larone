@@ -1,0 +1,15 @@
+{
+  "id": "valid-03-recall-memory",
+  "description": "Temporal recall with memory stance",
+  "input": "LAR:T=recall,S=there,C=mem,E=reported,L=0.55,V=verified_crossref",
+  "expected": {
+    "LAR-1": {
+      "T": "recall",
+      "S": "there",
+      "C": "mem",
+      "E": "reported",
+      "L": 0.55,
+      "V": "verified_crossref"
+    }
+  }
+}

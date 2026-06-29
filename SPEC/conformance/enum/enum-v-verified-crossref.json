@@ -1,0 +1,10 @@
+{
+  "id": "enum-v-verified-crossref",
+  "description": "Enum coverage: V=verified_crossref",
+  "input": "LAR:V=verified_crossref",
+  "expected": {
+    "LAR-1": {
+      "V": "verified_crossref"
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "id": "enum-t-past",
+  "description": "Enum coverage: T=past",
+  "input": "LAR:T=past",
+  "expected": {
+    "LAR-1": {
+      "T": "past"
+    }
+  }
+}

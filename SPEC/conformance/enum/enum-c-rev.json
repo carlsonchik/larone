@@ -1,0 +1,10 @@
+{
+  "id": "enum-c-rev",
+  "description": "Enum coverage: C=rev",
+  "input": "LAR:C=rev",
+  "expected": {
+    "LAR-1": {
+      "C": "rev"
+    }
+  }
+}

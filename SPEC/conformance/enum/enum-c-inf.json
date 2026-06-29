@@ -1,0 +1,10 @@
+{
+  "id": "enum-c-inf",
+  "description": "Enum coverage: C=inf",
+  "input": "LAR:C=inf",
+  "expected": {
+    "LAR-1": {
+      "C": "inf"
+    }
+  }
+}
