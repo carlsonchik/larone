@@ -1,6 +1,6 @@
 # @lar-1/core
 
-Reference TypeScript implementation of **LAR-1** (Latent Agent Register) v0.2.
+Reference TypeScript implementation of **LAR-1** (Latent Agent Register) — **spec v0.2**, package **@lar-1/core@0.3.x**.
 
 Parse, validate, and serialize the semantic overlay for agent messages — compatible with `application/lar+json` and the compact `LAR:` wire format.
 

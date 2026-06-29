@@ -1,6 +1,6 @@
 # lar1semantic — LAR-1 Python SDK
 
-Reference Python implementation of **LAR-1** semantic overlay.
+Reference Python implementation of **LAR-1** spec v0.2 semantic overlay.
 
 ## Install
 

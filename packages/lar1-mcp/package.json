@@ -11,9 +11,16 @@
       "import": "./dist/index.js"
     }
   },
-  "files": ["dist"],
+  "files": [
+    "dist/index.js",
+    "dist/index.d.ts",
+    "dist/types.js",
+    "dist/types.d.ts",
+    "README.md"
+  ],
   "scripts": {
     "build": "tsc",
+    "prepublishOnly": "npm run build",
     "prepare": "npm run build",
     "test": "npm run build && node --test dist/test/mcp.test.js"
   },
@@ -30,5 +37,8 @@
     "directory": "packages/lar1-mcp"
   },
   "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
   "keywords": ["lar-1", "mcp", "agent"]
 }

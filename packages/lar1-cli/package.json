@@ -1,6 +1,6 @@
 {
   "name": "@lar-1/cli",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "CLI for LAR-1 semantic overlay — validate, compact, json",
   "type": "module",
   "bin": {
@@ -24,5 +24,8 @@
     "directory": "packages/lar1-cli"
   },
   "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
   "keywords": ["lar-1", "cli", "agent"]
 }

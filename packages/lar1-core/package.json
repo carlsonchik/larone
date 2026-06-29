@@ -1,6 +1,6 @@
 {
   "name": "@lar-1/core",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Reference implementation of LAR-1 semantic overlay — parse, validate, serialize",
   "type": "module",
   "main": "./dist/index.js",
@@ -11,7 +11,21 @@
       "import": "./dist/index.js"
     }
   },
-  "files": ["dist"],
+  "files": [
+    "dist/index.js",
+    "dist/index.d.ts",
+    "dist/deserialize.js",
+    "dist/deserialize.d.ts",
+    "dist/parse.js",
+    "dist/parse.d.ts",
+    "dist/serialize.js",
+    "dist/serialize.d.ts",
+    "dist/types.js",
+    "dist/types.d.ts",
+    "dist/validate.js",
+    "dist/validate.d.ts",
+    "README.md"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/carlsonchik/larone.git",
@@ -29,6 +43,9 @@
   },
   "keywords": ["lar-1", "agent", "mcp", "a2a", "semantic-overlay"],
   "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
   "devDependencies": {
     "@types/node": "^22.10.0",
     "typescript": "^5.7.0"
