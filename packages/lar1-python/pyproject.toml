@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "lar1semantic"
-version = "0.3.0"
+version = "0.3.1"
 description = "Reference Python implementation of LAR-1 semantic overlay"
 readme = "README.md"
 license = "MIT"

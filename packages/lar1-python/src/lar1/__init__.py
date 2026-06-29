@@ -18,4 +18,4 @@ __all__ = [
 
 from lar1.validate import validate, validate_envelope
 
-__version__ = "0.3.0"
+__version__ = "0.3.1"

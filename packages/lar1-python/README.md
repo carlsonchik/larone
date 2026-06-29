@@ -1,11 +1,11 @@
-# lar-1 (Python)
+# lar1semantic — LAR-1 Python SDK
 
-Reference Python implementation of **LAR-1** v0.2 semantic overlay.
+Reference Python implementation of **LAR-1** semantic overlay.
 
 ## Install
 
 ```bash
-pip install lar-1
+pip install lar1semantic
 # or from monorepo:
 cd packages/lar1-python && pip install -e ".[dev]"
 ```
