@@ -29,8 +29,8 @@ Current version: **0.2**
 
 | Artifact | Version identifier |
 |----------|-------------------|
-| JSON Schema | `$id`: `https://lar-1.dev/schema/v0.2/lar1-schema.json` |
-| A2A extension | `https://lar-1.dev/ext/v0.2` |
+| JSON Schema | [`SPEC/lar1-schema.json`](SPEC/lar1-schema.json) · [raw URL](https://raw.githubusercontent.com/carlsonchik/larone/main/SPEC/lar1-schema.json) |
+| A2A extension | [raw URL](https://raw.githubusercontent.com/carlsonchik/larone/main/SPEC/extension-v0.2.json) |
 | Media type | `application/lar+json` (version in payload optional) |
 | Reference SDK | `@lar-1/core` package version tracks spec (currently `0.2.x`) |
 
@@ -72,7 +72,7 @@ Open a **GitHub Discussion** or **Issue** with:
 
 | Version | URI | Descriptor |
 |---------|-----|------------|
-| 0.2 | `https://lar-1.dev/ext/v0.2` | [`SPEC/extension-v0.2.json`](SPEC/extension-v0.2.json) |
+| 0.2 | [extension raw URL](https://raw.githubusercontent.com/carlsonchik/larone/main/SPEC/extension-v0.2.json) | [`SPEC/extension-v0.2.json`](SPEC/extension-v0.2.json) |
 
 When registering with **A2A**, include the extension URI in `Message.extensions` and declare capability in the agent card (see [SPEC.md](SPEC.md) §4).
 

@@ -56,7 +56,9 @@ larone/
 ├── SPEC.md                    # Human-readable specification
 ├── SPEC/lar1-schema.json      # Normative JSON Schema
 ├── SPEC/conformance/          # Test vectors (74 cases)
-├── packages/lar1-core/        # Reference TypeScript SDK
+├── packages/lar1-core/        # TypeScript SDK
+├── packages/lar1-python/      # Python SDK + CLI
+├── packages/lar1-cli/         # Node CLI
 ├── demos/langgraph-synthesis/ # Multi-agent demo
 ├── ROADMAP.md
 ├── ALTERNATIVES.md
@@ -65,9 +67,26 @@ larone/
 
 ## Reference SDK
 
+**TypeScript** (`packages/lar1-core`):
+
 ```bash
 cd packages/lar1-core
 npm install && npm test   # 74 conformance + round-trip tests
+```
+
+**Python** (`packages/lar1-python`):
+
+```bash
+cd packages/lar1-python
+pip install -e ".[dev]" && pytest -q
+```
+
+**CLI** (both ecosystems):
+
+```bash
+lar1 validate "LAR:C=obs,L=0.9,V=verified_tool"
+lar1 compact message.json
+lar1 json "LAR:T=now,C=inf,L=0.7"
 ```
 
 ```ts
@@ -83,7 +102,7 @@ serialize(data);          // application/lar+json
 
 | Platform | How |
 |----------|-----|
-| **A2A** | `Content-Type: application/lar+json`, extension `https://lar-1.dev/ext/v0.2` |
+| **A2A** | `Content-Type: application/lar+json`, [extension descriptor](SPEC/extension-v0.2.json) |
 | **MCP** | `_meta["lar-1"]` on tools, resources, results |
 | **LangGraph** | `additional_kwargs["lar-1"]` — see [demo](demos/langgraph-synthesis/) |
 
@@ -93,6 +112,8 @@ serialize(data);          // application/lar+json
 - **[ROADMAP.md](ROADMAP.md)** — development phases
 - **[ALTERNATIVES.md](ALTERNATIVES.md)** — competitive landscape
 - **[GOVERNANCE.md](GOVERNANCE.md)** — versioning and change process
+- **[HOSTING.md](HOSTING.md)** — URI strategy (GitHub raw vs custom domain)
+- **[PUBLISHING.md](PUBLISHING.md)** — npm and PyPI publish steps
 
 ## Sister protocol
 
@@ -101,7 +122,7 @@ LAR-1 handles the **semantic layer**; `/3` handles the **signal layer**.
 
 ## Status
 
-**Stable draft v0.2** — normative schema, conformance suite, reference SDK.  
+**Stable draft v0.3** — dual SDK (TypeScript + Python), CLI, conformance suite.  
 Open for community contribution.
 
 ## License

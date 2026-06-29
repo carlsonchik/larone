@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://lar-1.dev/schema/v0.2/lar1-schema.json",
+  "$id": "https://raw.githubusercontent.com/carlsonchik/larone/main/SPEC/lar1-schema.json",
   "title": "LAR-1 Semantic Overlay",
   "description": "JSON Schema for Content-Type: application/lar+json. LAR-1 adds temporal, spatial, cognitive, evidential, confidence, and verification dimensions to agent messages.",
   "type": "object",

@@ -32,7 +32,7 @@ flowchart LR
 | Compact format grammar | ✅ |
 | Conformance fixtures (`SPEC/conformance/`) | ✅ |
 | Field `V` (verification) | ✅ |
-| Extension URI `https://lar-1.dev/ext/v0.2` | ✅ |
+| Extension URI (GitHub raw JSON) | ✅ |
 | Extension descriptor (`SPEC/extension-v0.2.json`) | ✅ |
 | Update root `SPEC.md` to v0.2 enums | ✅ |
 | Update `README.md` to v0.2 | ✅ |
@@ -40,27 +40,29 @@ flowchart LR
 | CI (conformance + demo smoke) | ✅ |
 
 **Exit criteria:** Two independent implementations parse the same compact string to identical JSON.  
-_Reference SDK complete; second implementation planned for Phase 1 (Python)._
+✅ TypeScript (`@lar-1/core`) and Python (`lar-1`) both pass conformance fixtures.
 
 ---
 
-## Phase 1 — Reference SDK (v0.3)
+## Phase 1 — Reference SDK (v0.3) ✅ complete (publish pending)
 
 **Goal:** Minimal library — not a framework.
 
 ```
 packages/
   lar1-core/     ✅ TypeScript — parse, validate, serialize, compact
-  lar1-python/   🔲 Python mirror
+  lar1-python/   ✅ Python mirror + CLI
+  lar1-cli/      ✅ Node CLI (validate, compact, json)
 ```
 
 | Deliverable | Status |
 |-------------|--------|
-| `@lar-1/core` TypeScript package | ✅ skeleton |
-| Conformance test runner | ✅ |
-| Publish to npm | 🔲 |
-| CLI: `lar1 validate`, `lar1 compact` | 🔲 |
-| Python package on PyPI | 🔲 |
+| `@lar-1/core` TypeScript package | ✅ |
+| `lar-1` Python package | ✅ |
+| Conformance test runner (TS + Python) | ✅ |
+| CLI: `lar1 validate`, `lar1 compact`, `lar1 json` | ✅ |
+| Publish to npm | 🔲 see [PUBLISHING.md](PUBLISHING.md) |
+| Python package on PyPI | 🔲 see [PUBLISHING.md](PUBLISHING.md) |
 
 **Exit criteria:** `npm install @lar-1/core` → annotate a message in ≤10 lines.
 

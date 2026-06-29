@@ -1,0 +1,28 @@
+{
+  "name": "@lar-1/cli",
+  "version": "0.3.0",
+  "description": "CLI for LAR-1 semantic overlay — validate, compact, json",
+  "type": "module",
+  "bin": {
+    "lar1": "./dist/cli.js"
+  },
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "@lar-1/core": "file:../lar1-core"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "typescript": "^5.7.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/carlsonchik/larone.git",
+    "directory": "packages/lar1-cli"
+  },
+  "license": "MIT",
+  "keywords": ["lar-1", "cli", "agent"]
+}

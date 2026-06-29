@@ -1,0 +1,39 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "lar-1"
+version = "0.3.0"
+description = "Reference Python implementation of LAR-1 semantic overlay"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.10"
+authors = [{ name = "LAR-1 contributors" }]
+keywords = ["lar-1", "agent", "mcp", "a2a", "semantic-overlay"]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Topic :: Software Development :: Libraries",
+]
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0"]
+
+[project.scripts]
+lar1 = "lar1.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/carlsonchik/larone"
+Repository = "https://github.com/carlsonchik/larone"
+Documentation = "https://github.com/carlsonchik/larone/blob/main/SPEC.md"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/lar1"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src", "."]

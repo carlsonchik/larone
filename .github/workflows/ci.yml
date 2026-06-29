@@ -15,15 +15,45 @@ jobs:
         working-directory: packages/lar1-core
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
           cache: npm
           cache-dependency-path: packages/lar1-core/package-lock.json
-
       - run: npm ci
       - run: npm test
+
+  lar1-python:
+    name: "lar-1 Python conformance"
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/lar1-python
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -e ".[dev]"
+      - run: pytest -q
+
+  lar1-cli:
+    name: "@lar-1/cli smoke"
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/lar1-cli
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: npm install ../lar1-core
+      - run: npm install
+      - run: npm run build
+      - run: node dist/cli.js validate "LAR:C=obs,L=0.9,V=verified_tool"
+      - run: node dist/cli.js compact "LAR:T=now,C=inf,L=0.5"
+      - run: node dist/cli.js json "LAR:C=det,L=1"
 
   langgraph-demo:
     name: "LangGraph demo (smoke)"
@@ -33,10 +63,8 @@ jobs:
         working-directory: demos/langgraph-synthesis
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-
       - run: pip install -r requirements.txt
       - run: python -m synthesis.compare

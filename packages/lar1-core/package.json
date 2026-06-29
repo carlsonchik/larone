@@ -1,6 +1,6 @@
 {
   "name": "@lar-1/core",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Reference implementation of LAR-1 semantic overlay — parse, validate, serialize",
   "type": "module",
   "main": "./dist/index.js",
@@ -12,6 +12,15 @@
     }
   },
   "files": ["dist"],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/carlsonchik/larone.git",
+    "directory": "packages/lar1-core"
+  },
+  "homepage": "https://github.com/carlsonchik/larone#readme",
+  "bugs": {
+    "url": "https://github.com/carlsonchik/larone/issues"
+  },
   "scripts": {
     "build": "tsc",
     "test": "npm run build && node --test 'dist/test/*.test.js'",

@@ -11,7 +11,7 @@
 | Extension descriptor | [`SPEC/extension-v0.2.json`](SPEC/extension-v0.2.json) |
 | Reference implementation | [`packages/lar1-core/`](packages/lar1-core/) |
 
-**Extension URI (A2A `extensions[]`):** `https://lar-1.dev/ext/v0.2`  
+**Extension URI (A2A `extensions[]`):** `https://raw.githubusercontent.com/carlsonchik/larone/main/SPEC/extension-v0.2.json`  
 **Media type:** `application/lar+json`
 
 ---
@@ -147,7 +147,7 @@ Attach LAR-1 fields under `_meta["lar-1"]` on resources, tools, prompts, and too
 }
 ```
 
-Extension URI: `https://lar-1.dev/ext/v0.2`
+Extension URI: `https://raw.githubusercontent.com/carlsonchik/larone/main/SPEC/extension-v0.2.json`
 
 ---
 
@@ -163,7 +163,7 @@ Include extension URI in `Message.extensions`:
 
 ```json
 {
-  "extensions": ["https://lar-1.dev/ext/v0.2"],
+  "extensions": ["https://raw.githubusercontent.com/carlsonchik/larone/main/SPEC/extension-v0.2.json"],
   "parts": [
     {
       "kind": "data",
@@ -187,7 +187,7 @@ Include extension URI in `Message.extensions`:
   "capabilities": {
     "LAR-1": {
       "version": "0.2",
-      "extension": "https://lar-1.dev/ext/v0.2",
+      "extension": "https://raw.githubusercontent.com/carlsonchik/larone/main/SPEC/extension-v0.2.json",
       "fields": ["T", "S", "C", "E", "L", "V"]
     }
   }
