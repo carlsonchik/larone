@@ -1,30 +1,40 @@
 # Publishing LAR-1 packages
 
-## npm (`@lar-1/core`, `@lar-1/cli`)
+## npm (`@lar-1/core`, `@lar-1/cli`, `@lar-1/a2a`, `@lar-1/mcp`)
 
 ### Prerequisites
 
 1. [npm](https://www.npmjs.com/) account
-2. Access to the `@lar-1` scope (create org on npm or publish as unscoped `lar1-core`)
+2. Create `@lar-1` organization on npmjs.com
+3. `npm login`
 
-### Publish `@lar-1/core`
+### Publish order (core first — others depend on it)
 
 ```bash
+# 1. Core — foundation
 cd packages/lar1-core
-npm login
+npm install && npm run build && npm test
+npm publish --access public
+
+# 2. CLI (depends on core)
+cd ../lar1-cli
+npm install && npm run build
+npm publish --access public
+
+# 3. A2A integration (depends on core)
+cd ../lar1-a2a
+npm install && npm run build && npm test
+npm publish --access public
+
+# 4. MCP integration (depends on core)
+cd ../lar1-mcp
+npm install && npm run build && npm test
 npm publish --access public
 ```
 
-### Publish `@lar-1/cli`
+### Local test (without publish)
 
-```bash
-cd packages/lar1-cli
-# Ensure @lar-1/core is published first, or use file:../lar1-core for local test
-npm install
-npm publish --access public
-```
-
-### Local CLI test (without publish)
+Uses `file:` for local dev dependency on core:
 
 ```bash
 cd packages/lar1-core && npm install && npm run build

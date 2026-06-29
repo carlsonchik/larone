@@ -12,7 +12,7 @@
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "@lar-1/core": "file:../lar1-core"
+    "@lar-1/core": "^0.3.0"
   },
   "devDependencies": {
     "@types/node": "^22.10.0",

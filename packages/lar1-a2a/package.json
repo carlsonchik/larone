@@ -1,6 +1,6 @@
 {
   "name": "@lar-1/a2a",
-  "version": "0.4.0",
+  "version": "0.3.0",
   "description": "LAR-1 integration profile for Google A2A — typed parts, extensions, agent card",
   "type": "module",
   "main": "./dist/index.js",
@@ -17,7 +17,7 @@
     "test": "npm run build && node --test dist/test/a2a.test.js"
   },
   "dependencies": {
-    "@lar-1/core": "file:../lar1-core"
+    "@lar-1/core": "^0.3.0"
   },
   "devDependencies": {
     "@types/node": "^22.10.0",
