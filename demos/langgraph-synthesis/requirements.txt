@@ -1,3 +1,4 @@
 # LangGraph synthesis demo — pinned for reproducible installs
 langgraph>=0.2.0,<1.0.0
 langchain-core>=0.3.0,<1.0.0
+-e ../../packages/lar1-python

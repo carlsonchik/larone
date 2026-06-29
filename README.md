@@ -57,8 +57,12 @@ larone/
 ├── SPEC/lar1-schema.json      # Normative JSON Schema
 ├── SPEC/conformance/          # Test vectors (74 cases)
 ├── packages/lar1-core/        # TypeScript SDK
+├── packages/lar1-a2a/         # A2A integration
+├── packages/lar1-mcp/         # MCP _meta integration
 ├── packages/lar1-python/      # Python SDK + CLI
 ├── packages/lar1-cli/         # Node CLI
+├── demos/a2a-lar1/            # A2A wire-format demo
+├── demos/mcp-lar1/            # MCP reference server
 ├── demos/langgraph-synthesis/ # Multi-agent demo
 ├── ROADMAP.md
 ├── ALTERNATIVES.md

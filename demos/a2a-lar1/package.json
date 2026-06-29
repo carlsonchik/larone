@@ -1,0 +1,12 @@
+{
+  "name": "a2a-lar1-demo",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "@lar-1/a2a": "file:../../packages/lar1-a2a",
+    "@lar-1/core": "file:../../packages/lar1-core"
+  }
+}

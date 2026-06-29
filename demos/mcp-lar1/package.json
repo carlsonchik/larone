@@ -1,0 +1,18 @@
+{
+  "name": "mcp-lar1-demo",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "start": "npm run build && node dist/server.js"
+  },
+  "dependencies": {
+    "@lar-1/core": "file:../../packages/lar1-core",
+    "@lar-1/mcp": "file:../../packages/lar1-mcp",
+    "@modelcontextprotocol/sdk": "^1.12.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "typescript": "^5.7.0"
+  }
+}

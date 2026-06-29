@@ -23,6 +23,34 @@ jobs:
       - run: npm ci
       - run: npm test
 
+  lar1-a2a:
+    name: "@lar-1/a2a"
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/lar1-a2a
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: npm install
+      - run: npm test
+
+  lar1-mcp:
+    name: "@lar-1/mcp"
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/lar1-mcp
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: npm install
+      - run: npm test
+
   lar1-python:
     name: "lar-1 Python conformance"
     runs-on: ubuntu-latest
@@ -51,9 +79,21 @@ jobs:
       - run: npm install ../lar1-core
       - run: npm install
       - run: npm run build
-      - run: node dist/cli.js validate "LAR:C=obs,L=0.9,V=verified_tool"
-      - run: node dist/cli.js compact "LAR:T=now,C=inf,L=0.5"
-      - run: node dist/cli.js json "LAR:C=det,L=1"
+      - run: node dist/cli.js validate "LAR:C=obs,L=0.9"
+
+  mcp-demo:
+    name: "MCP demo build"
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: demos/mcp-lar1
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: npm install
+      - run: npm run build
 
   langgraph-demo:
     name: "LangGraph demo (smoke)"

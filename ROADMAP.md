@@ -68,7 +68,7 @@ packages/
 
 ---
 
-## Phase 2 — Integration profiles (v0.4)
+## Phase 2 — Integration profiles (v0.4) ✅ complete
 
 **Goal:** Show exactly how LAR-1 attaches to real protocols.
 
@@ -90,10 +90,14 @@ packages/
 
 | Deliverable | Status |
 |-------------|--------|
-| `lar1-a2a` adapter package | 🔲 |
-| `lar1-mcp` adapter package | 🔲 |
-| LangGraph demo | ✅ skeleton (`demos/langgraph-synthesis/`) |
-| Cursor hooks example | 🔲 |
+| `lar1-a2a` adapter package | ✅ |
+| `lar1-mcp` adapter package | ✅ |
+| LangGraph middleware (`lar1.langgraph`) | ✅ |
+| LangGraph demo | ✅ (`demos/langgraph-synthesis/`) |
+| MCP reference server | ✅ (`demos/mcp-lar1/`) |
+| A2A wire demo | ✅ (`demos/a2a-lar1/`) |
+| Cursor hooks example | ✅ (`examples/cursor-hooks/`) |
+| A2A WG discussion update | ✅ [#1974](https://github.com/a2aproject/A2A/issues/1974#issuecomment-4831099763) |
 
 **Exit criteria:** Working demo in at least two ecosystems (LangGraph + MCP or A2A).
 
