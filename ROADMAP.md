@@ -22,7 +22,7 @@ flowchart LR
 
 ---
 
-## Phase 0 — Stabilize specification (v0.2) ✅ in progress
+## Phase 0 — Stabilize specification (v0.2) ✅ complete
 
 **Goal:** Turn the discussion draft into a normative, testable spec.
 
@@ -32,11 +32,15 @@ flowchart LR
 | Compact format grammar | ✅ |
 | Conformance fixtures (`SPEC/conformance/`) | ✅ |
 | Field `V` (verification) | ✅ |
-| Extension URI `https://lar-1.dev/ext/v0.2` | 🔲 |
-| Update root `SPEC.md` to v0.2 enums | 🔲 |
-| Governance / versioning doc | 🔲 |
+| Extension URI `https://lar-1.dev/ext/v0.2` | ✅ |
+| Extension descriptor (`SPEC/extension-v0.2.json`) | ✅ |
+| Update root `SPEC.md` to v0.2 enums | ✅ |
+| Update `README.md` to v0.2 | ✅ |
+| Governance / versioning doc (`GOVERNANCE.md`) | ✅ |
+| CI (conformance + demo smoke) | ✅ |
 
-**Exit criteria:** Two independent implementations parse the same compact string to identical JSON.
+**Exit criteria:** Two independent implementations parse the same compact string to identical JSON.  
+_Reference SDK complete; second implementation planned for Phase 1 (Python)._
 
 ---
 
@@ -131,7 +135,7 @@ packages/
 1. ✅ JSON Schema + conformance fixtures
 2. ✅ `@lar-1/core` skeleton + tests
 3. ✅ LangGraph demo skeleton
-4. 🔲 Update `SPEC.md` to v0.2 field tables
+4. ✅ Update `SPEC.md` + `README.md` to v0.2
 5. 🔲 Python `lar1-core` package
 6. 🔲 npm publish `@lar-1/core@0.2.0`
 

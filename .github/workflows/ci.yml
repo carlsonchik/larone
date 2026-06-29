@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lar1-core:
+    name: "@lar-1/core conformance"
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/lar1-core
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: packages/lar1-core/package-lock.json
+
+      - run: npm ci
+      - run: npm test
+
+  langgraph-demo:
+    name: "LangGraph demo (smoke)"
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: demos/langgraph-synthesis
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - run: pip install -r requirements.txt
+      - run: python -m synthesis.compare

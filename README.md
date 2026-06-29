@@ -1,21 +1,22 @@
 # LAR-1 — Semantic Overlay for Agent Communication
 
-> **Latent Agent Register, v0.1**  
+> **Latent Agent Register, v0.2**  
 > A compact, machine-readable semantic layer for MCP, A2A, and any agent-to-agent protocol.  
-> Time · Space · Cognitive framing · Evidence · Confidence
+> Time · Space · Cognition · Evidence · Likelihood · Verification
 
 ## What is LAR-1?
 
 LAR-1 is a **semantic overlay** — not a transport, not a protocol, not a framework.  
-It adds five dimensions of semantics to any agent message:
+It adds six dimensions of semantics to any agent message:
 
-| Field | Name | Meaning | Example |
-|-------|------|---------|---------|
-| `T` | Time | Temporal frame | `T:now`, `T:recall`, `T:spec` |
-| `S` | Space | Spatial/contextual frame | `S:workspace`, `S:channel` |
-| `C` | Cognition | Cognitive stance | `C:obs`, `C:inf`, `C:dec` |
-| `E` | Evidence | Evidential grounding | `E:direct`, `E:derived` |
-| `L` | Likelihood | Confidence/uncertainty | `L:0.92`, `L:high` |
+| Field | Name | Example |
+|-------|------|---------|
+| `T` | Time | `now`, `past`, `recall`, `future` |
+| `S` | Space | `here`, `there`, `meta` |
+| `C` | Cognition | `obs`, `hyp`, `inf`, `rev` |
+| `E` | Evidence | `direct`, `derived`, `aggregated` |
+| `L` | Likelihood | `0.78` (0.0–1.0) |
+| `V` | Verification | `unverified`, `verified_tool` |
 
 ## Why LAR-1?
 
@@ -25,46 +26,83 @@ It adds five dimensions of semantics to any agent message:
 
 LAR-1 closes this gap without competing with either protocol.
 
-## Integration
+## Quick example
 
-### With A2A (typed message part)
-```
-Content-Type: application/lar+json
+**JSON** (`application/lar+json`):
+
+```json
 {
   "LAR-1": {
     "T": "now",
-    "S": "workspace:monograph",
-    "C": "inf",
-    "E": "derived:third_protocol.md",
-    "L": 0.78
+    "S": "here",
+    "C": "obs",
+    "E": "direct",
+    "L": 0.95,
+    "V": "verified_tool"
   }
 }
 ```
 
-### With MCP (experimental extension)
-Via `experimental-ext-lar` profile on resources, tools, and prompts.
+**Compact:**
 
-### Compact string format
 ```
-LAR:T=now,S=workspace-monograph,C=inf,E=derived,L=0.78
+LAR:T=now,S=here,C=obs,E=direct,L=0.95,V=verified_tool
 ```
 
-## Full specification
+## Repository layout
 
-See **[SPEC.md](SPEC.md)** for complete field tables, wire formats, and A2A/MCP integration details.
+```
+larone/
+├── SPEC.md                    # Human-readable specification
+├── SPEC/lar1-schema.json      # Normative JSON Schema
+├── SPEC/conformance/          # Test vectors (74 cases)
+├── packages/lar1-core/        # Reference TypeScript SDK
+├── demos/langgraph-synthesis/ # Multi-agent demo
+├── ROADMAP.md
+├── ALTERNATIVES.md
+└── GOVERNANCE.md
+```
 
-## Repository
+## Reference SDK
 
-[github.com/carlsonchik/larone](https://github.com/carlsonchik/larone)
+```bash
+cd packages/lar1-core
+npm install && npm test   # 74 conformance + round-trip tests
+```
+
+```ts
+import { parse, compact, serialize, validate } from "@lar-1/core";
+
+const data = parse("LAR:C=obs,L=0.9,V=verified_tool");
+validate(data);           // true
+compact(data);            // canonical compact string
+serialize(data);          // application/lar+json
+```
+
+## Integration
+
+| Platform | How |
+|----------|-----|
+| **A2A** | `Content-Type: application/lar+json`, extension `https://lar-1.dev/ext/v0.2` |
+| **MCP** | `_meta["lar-1"]` on tools, resources, results |
+| **LangGraph** | `additional_kwargs["lar-1"]` — see [demo](demos/langgraph-synthesis/) |
+
+## Documentation
+
+- **[SPEC.md](SPEC.md)** — full field tables and wire formats
+- **[ROADMAP.md](ROADMAP.md)** — development phases
+- **[ALTERNATIVES.md](ALTERNATIVES.md)** — competitive landscape
+- **[GOVERNANCE.md](GOVERNANCE.md)** — versioning and change process
 
 ## Sister protocol
 
-**[`/3` (Third Protocol)](https://github.com/carlsonchik/third)** — Minimal signal language for LLM-to-LLM direct communication.  
+**[`/3` (Third Protocol)](https://github.com/carlsonchik/third)** — minimal signal language for position and intent.  
 LAR-1 handles the **semantic layer**; `/3` handles the **signal layer**.
 
 ## Status
 
-Discussion Draft v0.1. Open for community contribution.
+**Stable draft v0.2** — normative schema, conformance suite, reference SDK.  
+Open for community contribution.
 
 ## License
 
