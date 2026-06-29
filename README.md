@@ -85,6 +85,14 @@ cd packages/lar1-python
 pip install -e ".[dev]" && pytest -q
 ```
 
+**PyPI:**
+
+```bash
+pip install lar1semantic
+```
+
+� [lar1semantic on PyPI](https://pypi.org/project/lar1semantic/) — Python package (published).
+
 **CLI** (both ecosystems):
 
 ```bash
