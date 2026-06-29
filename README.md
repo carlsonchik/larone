@@ -1,6 +1,6 @@
 # LAR-1 — Semantic Overlay for Agent Communication
 
-> **Latent Agent Register, v0.2**  
+> **Latent Agent Register, v0.3**  
 > A compact, machine-readable semantic layer for MCP, A2A, and any agent-to-agent protocol.  
 > Time · Space · Cognition · Evidence · Likelihood · Verification
 
@@ -69,37 +69,24 @@ larone/
 └── GOVERNANCE.md
 ```
 
-## Reference SDK
+## Install
 
-**TypeScript** (`packages/lar1-core`):
-
-```bash
-cd packages/lar1-core
-npm install && npm test   # 74 conformance + round-trip tests
-```
-
-**Python** (`packages/lar1-python`):
+**npm (TypeScript):**
 
 ```bash
-cd packages/lar1-python
-pip install -e ".[dev]" && pytest -q
+npm install @lar-1/core          # core SDK
+npm install @lar-1/a2a           # A2A integration
+npm install @lar-1/mcp           # MCP integration
+npm install -g @lar-1/cli       # CLI tool
 ```
 
-**PyPI:**
+**PyPI (Python):**
 
 ```bash
-pip install lar1semantic
+pip install lar1semantic         # core SDK + CLI
 ```
 
-� [lar1semantic on PyPI](https://pypi.org/project/lar1semantic/) — Python package (published).
-
-**CLI** (both ecosystems):
-
-```bash
-lar1 validate "LAR:C=obs,L=0.9,V=verified_tool"
-lar1 compact message.json
-lar1 json "LAR:T=now,C=inf,L=0.7"
-```
+**Quick use:**
 
 ```ts
 import { parse, compact, serialize, validate } from "@lar-1/core";
@@ -109,6 +96,37 @@ validate(data);           // true
 compact(data);            // canonical compact string
 serialize(data);          // application/lar+json
 ```
+
+```python
+from lar1 import parse, validate, compact, serialize, deserialize_fields
+
+data = parse("LAR:T=now,C=obs,L=0.9,V=verified_tool")
+validate(data)            # True
+compact(data)             # LAR:T=now,C=obs,E=direct,L=0.9,V=verified_tool
+```
+
+```bash
+lar1 validate "LAR:C=obs,L=0.9"
+lar1 compact message.json
+lar1 json "LAR:T=now,C=inf,L=0.7"
+```
+
+## Reference SDK
+
+| Registry | Package | Description |
+|----------|---------|-------------|
+| npm | [@lar-1/core](https://www.npmjs.com/package/@lar-1/core) | TypeScript core SDK |
+| npm | [@lar-1/cli](https://www.npmjs.com/package/@lar-1/cli) | Node CLI |
+| npm | [@lar-1/a2a](https://www.npmjs.com/package/@lar-1/a2a) | A2A integration |
+| npm | [@lar-1/mcp](https://www.npmjs.com/package/@lar-1/mcp) | MCP integration |
+| PyPI | [lar1semantic](https://pypi.org/project/lar1semantic/) | Python SDK + CLI |
+
+All packages at **v0.3.0** (79+ tests passing).
+
+## Sister protocol
+
+**[`/3` (Third Protocol)](https://github.com/carlsonchik/third)** — minimal signal language for position and intent.  
+LAR-1 handles the **semantic layer**; `/3` handles the **signal layer**.
 
 ## Integration
 
@@ -127,14 +145,10 @@ serialize(data);          // application/lar+json
 - **[HOSTING.md](HOSTING.md)** — URI strategy (GitHub raw vs custom domain)
 - **[PUBLISHING.md](PUBLISHING.md)** — npm and PyPI publish steps
 
-## Sister protocol
-
-**[`/3` (Third Protocol)](https://github.com/carlsonchik/third)** — minimal signal language for position and intent.  
-LAR-1 handles the **semantic layer**; `/3` handles the **signal layer**.
-
 ## Status
 
-**Stable draft v0.3** — dual SDK (TypeScript + Python), CLI, conformance suite.  
+**v0.3.0 published** — dual SDK (TypeScript + Python), CLI, A2A/MCP integrations, conformance suite (79+ tests).  
+Available on [npm](https://www.npmjs.com/org/lar-1) and [PyPI](https://pypi.org/project/lar1semantic/).  
 Open for community contribution.
 
 ## License

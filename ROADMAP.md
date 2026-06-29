@@ -1,7 +1,7 @@
 # LAR-1 Development Roadmap
 
 > **Latent Agent Register** — semantic overlay for agent communication  
-> Status: v0.2 (schema + reference SDK skeleton)
+> Status: v0.3 (published — npm + PyPI)
 
 ## Vision
 
@@ -44,7 +44,7 @@ flowchart LR
 
 ---
 
-## Phase 1 — Reference SDK (v0.3) ✅ complete (publish pending)
+## Phase 1 — Reference SDK (v0.3) ✅ complete
 
 **Goal:** Minimal library — not a framework.
 
@@ -57,14 +57,17 @@ packages/
 
 | Deliverable | Status |
 |-------------|--------|
-| `@lar-1/core` TypeScript package | ✅ |
-| `lar-1` Python package | ✅ |
+| `@lar-1/core` TypeScript package (npm) | ✅ |
+| `@lar-1/a2a` A2A integration (npm) | ✅ |
+| `@lar-1/mcp` MCP integration (npm) | ✅ |
+| `@lar-1/cli` CLI tool (npm) | ✅ |
+| `lar1semantic` Python package + CLI (PyPI) | ✅ |
 | Conformance test runner (TS + Python) | ✅ |
 | CLI: `lar1 validate`, `lar1 compact`, `lar1 json` | ✅ |
-| Publish to npm | 🔲 see [PUBLISHING.md](PUBLISHING.md) |
-| Python package on PyPI | 🔲 see [PUBLISHING.md](PUBLISHING.md) |
+| Publish to npm (4 packages) | ✅ v0.3.0 |
+| Python package on PyPI | ✅ v0.3.1 |
 
-**Exit criteria:** `npm install @lar-1/core` → annotate a message in ≤10 lines.
+**Exit criteria:** ✅ `npm install @lar-1/core` → annotate a message. 74+ conformance + round-trip tests passing. All v0.3.0 on npm + PyPI.
 
 ---
 
