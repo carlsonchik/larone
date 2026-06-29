@@ -1,0 +1,38 @@
+{
+  "id": "https://raw.githubusercontent.com/carlsonchik/larone/main/SPEC/extension-v0.3.json",
+  "name": "LAR-1 Semantic Overlay",
+  "version": "0.3",
+  "description": "Adds temporal, spatial, cognitive, evidential, confidence, and verification metadata to agent messages.",
+  "mediaType": "application/lar+json",
+  "schema": "https://raw.githubusercontent.com/carlsonchik/larone/main/SPEC/lar1-schema.json",
+  "repository": "https://github.com/carlsonchik/larone",
+  "fields": ["T", "S", "C", "E", "L", "V"],
+  "compactPrefix": "LAR:",
+  "conformance": "https://github.com/carlsonchik/larone/tree/main/SPEC/conformance",
+  "referenceImplementations": [
+    {
+      "language": "typescript",
+      "package": "@lar-1/core",
+      "registry": "https://www.npmjs.com/package/@lar-1/core",
+      "path": "packages/lar1-core"
+    },
+    {
+      "language": "python",
+      "package": "lar1semantic",
+      "registry": "https://pypi.org/project/lar1semantic/",
+      "path": "packages/lar1-python"
+    }
+  ],
+  "integration": {
+    "a2a": {
+      "extensionsField": true,
+      "typedPartContentType": "application/lar+json"
+    },
+    "mcp": {
+      "metaKey": "lar-1"
+    },
+    "langgraph": {
+      "additionalKwargsKey": "lar-1"
+    }
+  }
+}
