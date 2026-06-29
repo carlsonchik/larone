@@ -21,7 +21,7 @@ classifiers = [
 dependencies = []
 
 [project.optional-dependencies]
-dev = ["pytest>=8.0"]
+dev = ["pytest>=8.0", "langchain-core>=0.3.0"]
 
 [project.scripts]
 lar1 = "lar1.cli:main"

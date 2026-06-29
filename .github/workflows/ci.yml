@@ -26,30 +26,40 @@ jobs:
   lar1-a2a:
     name: "@lar-1/a2a"
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: packages/lar1-a2a
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
-      - run: npm install
-      - run: npm test
+      - name: Build dependency @lar-1/core
+        run: |
+          cd packages/lar1-core
+          npm ci
+          npm run build
+      - name: Test @lar-1/a2a
+        run: |
+          cd packages/lar1-a2a
+          npm install
+          npm test
 
   lar1-mcp:
     name: "@lar-1/mcp"
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: packages/lar1-mcp
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
-      - run: npm install
-      - run: npm test
+      - name: Build dependency @lar-1/core
+        run: |
+          cd packages/lar1-core
+          npm ci
+          npm run build
+      - name: Test @lar-1/mcp
+        run: |
+          cd packages/lar1-mcp
+          npm install
+          npm test
 
   lar1-python:
     name: "lar-1 Python conformance"
@@ -68,32 +78,44 @@ jobs:
   lar1-cli:
     name: "@lar-1/cli smoke"
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: packages/lar1-cli
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
-      - run: npm install ../lar1-core
-      - run: npm install
-      - run: npm run build
-      - run: node dist/cli.js validate "LAR:C=obs,L=0.9"
+      - name: Build dependency @lar-1/core
+        run: |
+          cd packages/lar1-core
+          npm ci
+          npm run build
+      - name: Build and smoke-test @lar-1/cli
+        run: |
+          cd packages/lar1-cli
+          npm install
+          npm run build
+          node dist/cli.js validate "LAR:C=obs,L=0.9"
 
   mcp-demo:
     name: "MCP demo build"
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: demos/mcp-lar1
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
-      - run: npm install
-      - run: npm run build
+      - name: Build workspace packages
+        run: |
+          cd packages/lar1-core
+          npm ci
+          npm run build
+          cd ../lar1-mcp
+          npm install
+          npm run build
+      - name: Build MCP demo
+        run: |
+          cd demos/mcp-lar1
+          npm install
+          npm run build
 
   langgraph-demo:
     name: "LangGraph demo (smoke)"
