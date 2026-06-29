@@ -116,8 +116,8 @@ packages/
 | Deliverable | Status |
 |-------------|--------|
 | LangGraph synthesis demo | ✅ skeleton |
-| Noisy-`L` experiment (verification matters) | 🔲 |
-| Blog post + reproducible repo | 🔲 |
+| Noisy-`L` experiment (verification matters) | ✅ [`demos/noisy-l-experiment/`](demos/noisy-l-experiment/) |
+| Blog post + reproducible repo | 🔲 deferred |
 
 **Exit criteria:** Published comparison showing measurable difference with vs without LAR-1.
 

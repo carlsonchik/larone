@@ -1,0 +1,3 @@
+# Noisy-L experiment — reproducible multi-agent synthesis scenarios
+langchain-core>=0.3.0,<1.0.0
+-e ../../packages/lar1-python

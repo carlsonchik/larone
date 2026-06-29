@@ -62,7 +62,7 @@ larone/
 ├── packages/lar1-python/      # Python SDK + CLI
 ├── packages/lar1-cli/         # Node CLI
 ├── demos/a2a-lar1/            # A2A wire-format demo
-├── demos/mcp-lar1/            # MCP reference server
+├── demos/noisy-l-experiment/  # Phase 3: noisy-L proof
 ├── demos/langgraph-synthesis/ # Multi-agent demo
 ├── ROADMAP.md
 ├── ALTERNATIVES.md
