@@ -1,4 +1,4 @@
-# LAR-1 — Specification v0.2
+# LAR-1 — Specification v0.3 (Discussion Draft)
 
 > **Latent Agent Register** — Semantic Overlay for Agent Communication
 
@@ -83,8 +83,28 @@ All fields are **optional**; send one or more (progressive disclosure). At least
 | `verified_human` | Confirmed by a human reviewer |
 | `verified_tool` | Confirmed by an automated tool or test |
 | `verified_crossref` | Confirmed by cross-reference with another source |
+| `verified_peer` | Validated by peer agent(s) via reputation, tipping, or interaction history |
 
 > **Note:** Research on multi-agent provenance (e.g. LDP) shows that self-reported confidence without verification can mislead downstream agents. Always pair meaningful `L` values with an accurate `V`.
+
+### provenance_key — Cryptographic Identity (optional)
+
+A field pointing to the signer's public key or wallet address, making the semantic annotation independently verifiable without a separate trust registry.
+
+| Format | Example |
+|--------|---------|
+| ETH address | `0xABC...123` |
+| SOL address | `ABC...123` |
+| BTC address | `bc1q...` |
+| PGP key ID | `0xDEADBEEF` |
+| `/llms.txt` URL | `https://agent.example/llms.txt` |
+
+When present, `provenance_key` allows any recipient to:
+1. Verify that the LAR-1 annotation was signed by the claimed agent
+2. Independently confirm the agent's identity without a central registry
+3. Build trust graphs based on signed interaction history
+
+This field is designed to complement existing decentralized identity layers (e.g. wallet-based agent networks). LAR-1 does not reinvent identity — it rides on top of existing signed descriptors.
 
 ---
 
@@ -100,7 +120,8 @@ All fields are **optional**; send one or more (progressive disclosure). At least
     "C": "inf",
     "E": "derived",
     "L": 0.78,
-    "V": "unverified"
+    "V": "unverified",
+    "provenance_key": "0xABC...123"
   }
 }
 ```
@@ -110,16 +131,16 @@ Content-Type: `application/lar+json`
 ### 3.2 Compact string
 
 ```
-LAR:T=now,S=here,C=inf,E=derived,L=0.78,V=unverified
+LAR:T=now,S=here,C=inf,E=derived,L=0.78,V=unverified,PK=0xABC123
 ```
 
-**Grammar (v0.2):**
+**Grammar (v0.3):**
 
 ```
 compact  ::= "LAR:" pair ( "," pair )*
 pair     ::= KEY "=" VALUE
-KEY      ::= "T" | "S" | "C" | "E" | "L" | "V"
-VALUE    ::= enum-literal | number
+KEY      ::= "T" | "S" | "C" | "E" | "L" | "V" | "PK"
+VALUE    ::= enum-literal | number | string
 ```
 
 Rules:
@@ -128,7 +149,8 @@ Rules:
 - Pairs may appear in any order.
 - Duplicate keys **must be rejected** by parsers.
 - At least one pair is required.
-- Canonical serialization order (recommended): `T`, `S`, `C`, `E`, `L`, `V`.
+- Canonical serialization order (recommended): `T`, `S`, `C`, `E`, `L`, `V`, `PK`.
+- `PK` (provenance_key) is optional; when present, it SHOULD be the last field.
 
 ### 3.3 MCP `_meta` profile
 
@@ -186,9 +208,10 @@ Include extension URI in `Message.extensions`:
 {
   "capabilities": {
     "LAR-1": {
-      "version": "0.2",
-      "extension": "https://raw.githubusercontent.com/carlsonchik/larone/main/SPEC/extension-v0.2.json",
-      "fields": ["T", "S", "C", "E", "L", "V"]
+      "version": "0.3",
+      "extension": "https://raw.githubusercontent.com/carlsonchik/larone/main/SPEC/extension-v0.3.json",
+      "fields": ["T", "S", "C", "E", "L", "V"],
+      "provenance": true
     }
   }
 }
@@ -213,7 +236,31 @@ See [`demos/langgraph-synthesis/`](demos/langgraph-synthesis/) for a working exa
 
 ---
 
-## 6. Design Principles
+## 6. Integration with Wallet-Based Identity Systems
+
+LAR-1 is designed to complement existing decentralized identity layers:
+
+- **Wallet-based agent networks** (e.g. SunfishLoop): wallet address as `provenance_key` + signed capability descriptors (`/llms.txt`) + on-chain tipping reputation → feeds into `V:verified_peer`
+- **On-chain tips as verification**: when peer agents tip an agent for useful output, this becomes machine-validated `V:verified_peer` — harder to game than self-reported `L` alone
+- **No central registry needed**: `provenance_key` + signature allows independent verification by any recipient without a trusted third party
+
+### Example: LAR-1 over a wallet-signed agent message
+
+```json
+{
+  "LAR-1": {
+    "T": "now",
+    "S": "here",
+    "C": "obs",
+    "E": "direct",
+    "L": 0.92,
+    "V": "verified_peer",
+    "provenance_key": "0xSunfishLoopAgent7F3A"
+  }
+}
+```
+
+## 7. Design Principles
 
 1. **Overlay, not replacement** — enriches existing protocols without modifying them
 2. **Optional** — messages without LAR-1 continue to work normally
@@ -224,7 +271,7 @@ See [`demos/langgraph-synthesis/`](demos/langgraph-synthesis/) for a working exa
 
 ---
 
-## 7. Conformance
+## 8. Conformance
 
 Implementations **should** pass all fixtures in [`SPEC/conformance/`](SPEC/conformance/).
 
