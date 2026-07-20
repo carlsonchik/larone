@@ -74,6 +74,11 @@
           "type": "string",
           "description": "Human-readable label for the reasoning effort level (e.g. low, medium, high, max, ultra)."
         },
+        "R_strategy": {
+          "type": "string",
+          "description": "Reasoning method used to produce the claim.",
+          "enum": ["cot", "tot", "debate", "tool-use", "reflection", "intuition"]
+        },
         "provenance_key": {
           "type": "string",
           "description": "Cryptographic identity — wallet address, PGP key ID, or /llms.txt URL."
@@ -88,8 +93,8 @@
     "grammar": {
       "production": "compact ::= \"LAR:\" pair ( \",\" pair )*",
       "pair": "pair ::= KEY \"=\" VALUE",
-      "KEY": "One of: T | S | C | E | L | V | R | R_raw | R_scale | R_label | PK (case-sensitive, uppercase)",
-      "VALUE": "enum literal for T,S,C,E,V,R_label | decimal for L,R | integer for R_raw,R_scale",
+      "KEY": "One of: T | S | C | E | L | V | R | R_raw | R_scale | R_label | R_strategy | PK (case-sensitive, uppercase)",
+      "VALUE": "enum literal for T,S,C,E,V,R_label,R_strategy | decimal for L,R | integer for R_raw,R_scale",
       "separator": "Comma between pairs; no spaces required but allowed after commas",
       "prefix": "Must start with literal LAR: (case-sensitive)",
       "order": "Pairs may appear in any order; duplicate keys are invalid (last wins is NOT defined — parsers MUST reject duplicates)",
@@ -105,6 +110,7 @@
       "R_raw": "integer >= 0",
       "R_scale": "integer >= 1",
       "R_label": "string",
+      "R_strategy": ["cot", "tot", "debate", "tool-use", "reflection", "intuition"],
       "V": [
         "unverified",
         "verified_human",
@@ -114,9 +120,9 @@
       ]
     },
     "examples": [
-      "LAR:T=now,S=here,C=obs,E=direct,L=0.95,V=verified_tool,R=0.83,R_raw=5,R_scale=6,R_label=high",
-      "LAR:C=inf,L=0.6,V=unverified,R=0.5",
-      "LAR:T=recall,S=there,C=mem,E=reported,L=0.4,R=0.67,R_label=medium"
+      "LAR:T=now,S=here,C=obs,E=direct,L=0.95,V=verified_tool,R=0.83,R_raw=5,R_scale=6,R_label=high,R_strategy=cot",
+      "LAR:C=inf,L=0.6,V=unverified,R=0.5,R_strategy=reflection",
+      "LAR:T=recall,S=there,C=mem,E=reported,L=0.4,R=0.67,R_label=medium,R_strategy=intuition"
     ],
     "mappingToJson": {
       "description": "Each KEY=VALUE pair maps to the same key inside the LAR-1 object. L and R are parsed as JSON number. R_raw and R_scale as JSON integer.",

@@ -8,6 +8,7 @@
     "R_raw": 6,
     "R_scale": 6,
     "R_label": "ultra",
+    "R_strategy": "debate",
     "provenance_key": "0xABC...123"
   }
 }

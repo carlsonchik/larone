@@ -98,6 +98,29 @@ All fields are **optional**; send one or more (progressive disclosure). At least
 | `R_raw` | int | ❌ | Original value on the model's native scale |
 | `R_scale` | int | ❌ | Maximum of the model's native scale |
 | `R_label` | string | ❌ | Human-readable label (e.g. `low`, `medium`, `high`, `max`, `ultra`) |
+| `R_strategy` | string | ❌ | Reasoning method used to produce the claim. See table below. |
+
+**R_strategy values:**
+
+| Value | Meaning |
+|-------|---------|
+| `cot` | Chain-of-thought — sequential reasoning |
+| `tot` | Tree-of-thought — branching, path exploration |
+| `debate` | Multi-perspective debate or dialogue |
+| `tool-use` | Tool invocation and result aggregation |
+| `reflection` | Iterative self-check, self-correction |
+| `intuition` | Direct response without explicit intermediate reasoning |
+
+**R_strategy vs C (Cognitive Stance):** `C` answers *what kind of claim this is* (observation, inference, hypothesis, etc.). `R_strategy` answers *how the claim was produced* (chain-of-thought, tool-use, etc.). They are orthogonal:
+
+| C | R_strategy | Meaning |
+|---|-----------|---------|
+| `obs` | `tool-use` | Observed via a tool |
+| `obs` | `intuition` | Direct zero-shot observation |
+| `inf` | `cot` | Inferred via chain of reasoning |
+| `inf` | `tot` | Inferred via tree-of-thought exploration |
+| `rev` | `debate` | Evaluated through multi-perspective debate |
+| `inf` | `reflection` | Inferred, then verified through self-correction |
 
 **Normalization rule:** `R = R_raw / R_scale`, where `R_scale` is the maximum reasoning effort the model is capable of. For continuous scales (0.0–1.0), `R = R_raw` and `R_scale = 1`.
 
@@ -169,7 +192,7 @@ LAR:T=now,S=here,C=inf,E=derived,L=0.78,V=unverified,R=0.83,R_raw=5,R_scale=6,R_
 ```
 compact  ::= "LAR:" pair ( "," pair )*
 pair     ::= KEY "=" VALUE
-KEY      ::= "T" | "S" | "C" | "E" | "L" | "V" | "R" | "R_raw" | "R_scale" | "R_label" | "PK"
+KEY      ::= "T" | "S" | "C" | "E" | "L" | "V" | "R" | "R_raw" | "R_scale" | "R_label" | "R_strategy" | "PK"
 VALUE    ::= enum-literal | number | string
 ```
 
@@ -179,7 +202,7 @@ Rules:
 - Pairs may appear in any order.
 - Duplicate keys **must be rejected** by parsers.
 - At least one pair is required.
-- Canonical serialization order (recommended): `T`, `S`, `C`, `E`, `L`, `V`, `R`, `R_raw`, `R_scale`, `R_label`, `PK`.
+- Canonical serialization order (recommended): `T`, `S`, `C`, `E`, `L`, `V`, `R`, `R_raw`, `R_scale`, `R_label`, `R_strategy`, `PK`.
 - `PK` (provenance_key) is optional; when present, it SHOULD be the last field.
 
 ### 3.3 MCP `_meta` profile

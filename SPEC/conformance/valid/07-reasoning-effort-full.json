@@ -9,6 +9,7 @@
     "R": 0.83,
     "R_raw": 5,
     "R_scale": 6,
-    "R_label": "high"
+    "R_label": "high",
+    "R_strategy": "cot"
   }
 }

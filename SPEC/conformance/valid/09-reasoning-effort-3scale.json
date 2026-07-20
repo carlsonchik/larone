@@ -6,6 +6,7 @@
     "E": "reported",
     "L": 0.4,
     "R": 0.67,
-    "R_label": "medium"
+    "R_label": "medium",
+    "R_strategy": "intuition"
   }
 }
