@@ -1,4 +1,4 @@
-# LAR-1 — Specification v0.3 (Discussion Draft)
+# LAR-1 — Specification v0.4 (Discussion Draft)
 
 > **Latent Agent Register** — Semantic Overlay for Agent Communication
 
@@ -8,10 +8,10 @@
 |----------|------|
 | JSON Schema | [`SPEC/lar1-schema.json`](SPEC/lar1-schema.json) |
 | Conformance fixtures | [`SPEC/conformance/`](SPEC/conformance/) |
-| Extension descriptor | [`SPEC/extension-v0.2.json`](SPEC/extension-v0.2.json) |
+| Extension descriptor | [`SPEC/extension-v0.4.json`](SPEC/extension-v0.4.json) |
 | Reference implementation | [`packages/lar1-core/`](packages/lar1-core/) |
 
-**Extension URI (A2A `extensions[]`):** `https://raw.githubusercontent.com/carlsonchik/larone/main/SPEC/extension-v0.2.json`  
+**Extension URI (A2A `extensions[]`):** `https://raw.githubusercontent.com/carlsonchik/larone/main/SPEC/extension-v0.4.json`  
 **Media type:** `application/lar+json`
 
 ---
@@ -25,8 +25,11 @@ A task can be delegated and a tool called, yet downstream systems lack a compact
 - Is it grounded in current context or retrieved memory?
 - Does it reflect ambiguity or a committed judgment?
 - What is the confidence level — and has it been verified?
+- **How much reasoning effort was invested in producing this claim?**
 
-## 2. The Six Dimensions
+Modern LLMs (GPT-5.6, DeepSeek-R1, Claude) support multiple reasoning-effort levels. Without an explicit field, a downstream agent cannot distinguish between a quick heuristic answer and a deeply reasoned one — even when both carry high confidence.
+
+## 2. The Seven Dimensions
 
 All fields are **optional**; send one or more (progressive disclosure). At least one field is required per message overlay.
 
@@ -87,6 +90,29 @@ All fields are **optional**; send one or more (progressive disclosure). At least
 
 > **Note:** Research on multi-agent provenance (e.g. LDP) shows that self-reported confidence without verification can mislead downstream agents. Always pair meaningful `L` values with an accurate `V`.
 
+### R — Reasoning Effort (new in v0.4)
+
+| Sub-field | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `R` | float (0.0–1.0) | ✅ yes | Normalized reasoning effort, relative to the model's maximum |
+| `R_raw` | int | ❌ | Original value on the model's native scale |
+| `R_scale` | int | ❌ | Maximum of the model's native scale |
+| `R_label` | string | ❌ | Human-readable label (e.g. `low`, `medium`, `high`, `max`, `ultra`) |
+
+**Normalization rule:** `R = R_raw / R_scale`, where `R_scale` is the maximum reasoning effort the model is capable of. For continuous scales (0.0–1.0), `R = R_raw` and `R_scale = 1`.
+
+**Comparison rule:** When two messages both carry `R`, compare by `R` directly. If only one carries `R`, the value is treated as unknown (no inference drawn).
+
+**Examples:**
+
+| Model | R | R_raw | R_scale | R_label | Meaning |
+|-------|---|-------|---------|---------|---------|
+| GPT-5.6 | 1.0 | 6 | 6 | ultra | Maximum effort |
+| GPT-5.6 | 0.5 | 3 | 6 | high | Half of maximum |
+| 3-level model | 1.0 | 3 | 3 | max | Maximum for this model |
+| 3-level model | 0.67 | 2 | 3 | medium | Two-thirds of maximum |
+| Continuous model | 0.7 | 0.7 | 1 | — | 70% of maximum |
+
 ### provenance_key — Cryptographic Identity (optional)
 
 A field pointing to the signer's public key or wallet address, making the semantic annotation independently verifiable without a separate trust registry.
@@ -121,6 +147,10 @@ This field is designed to complement existing decentralized identity layers (e.g
     "E": "derived",
     "L": 0.78,
     "V": "unverified",
+    "R": 0.83,
+    "R_raw": 5,
+    "R_scale": 6,
+    "R_label": "high",
     "provenance_key": "0xABC...123"
   }
 }
@@ -131,15 +161,15 @@ Content-Type: `application/lar+json`
 ### 3.2 Compact string
 
 ```
-LAR:T=now,S=here,C=inf,E=derived,L=0.78,V=unverified,PK=0xABC123
+LAR:T=now,S=here,C=inf,E=derived,L=0.78,V=unverified,R=0.83,R_raw=5,R_scale=6,R_label=high,PK=0xABC123
 ```
 
-**Grammar (v0.3):**
+**Grammar (v0.4):**
 
 ```
 compact  ::= "LAR:" pair ( "," pair )*
 pair     ::= KEY "=" VALUE
-KEY      ::= "T" | "S" | "C" | "E" | "L" | "V" | "PK"
+KEY      ::= "T" | "S" | "C" | "E" | "L" | "V" | "R" | "R_raw" | "R_scale" | "R_label" | "PK"
 VALUE    ::= enum-literal | number | string
 ```
 
@@ -149,7 +179,7 @@ Rules:
 - Pairs may appear in any order.
 - Duplicate keys **must be rejected** by parsers.
 - At least one pair is required.
-- Canonical serialization order (recommended): `T`, `S`, `C`, `E`, `L`, `V`, `PK`.
+- Canonical serialization order (recommended): `T`, `S`, `C`, `E`, `L`, `V`, `R`, `R_raw`, `R_scale`, `R_label`, `PK`.
 - `PK` (provenance_key) is optional; when present, it SHOULD be the last field.
 
 ### 3.3 MCP `_meta` profile
@@ -163,13 +193,15 @@ Attach LAR-1 fields under `_meta["lar-1"]` on resources, tools, prompts, and too
       "T": "now",
       "C": "obs",
       "L": 0.9,
-      "V": "verified_tool"
+      "V": "verified_tool",
+      "R": 0.5,
+      "R_label": "medium"
     }
   }
 }
 ```
 
-Extension URI: `https://raw.githubusercontent.com/carlsonchik/larone/main/SPEC/extension-v0.2.json`
+Extension URI: `https://raw.githubusercontent.com/carlsonchik/larone/main/SPEC/extension-v0.4.json`
 
 ---
 
@@ -185,7 +217,7 @@ Include extension URI in `Message.extensions`:
 
 ```json
 {
-  "extensions": ["https://raw.githubusercontent.com/carlsonchik/larone/main/SPEC/extension-v0.2.json"],
+  "extensions": ["https://raw.githubusercontent.com/carlsonchik/larone/main/SPEC/extension-v0.4.json"],
   "parts": [
     {
       "kind": "data",
@@ -194,7 +226,9 @@ Include extension URI in `Message.extensions`:
           "T": "now",
           "C": "obs",
           "L": 0.85,
-          "V": "verified_tool"
+          "V": "verified_tool",
+          "R": 0.83,
+          "R_label": "high"
         }
       }
     }
@@ -208,9 +242,9 @@ Include extension URI in `Message.extensions`:
 {
   "capabilities": {
     "LAR-1": {
-      "version": "0.3",
-      "extension": "https://raw.githubusercontent.com/carlsonchik/larone/main/SPEC/extension-v0.3.json",
-      "fields": ["T", "S", "C", "E", "L", "V"],
+      "version": "0.4",
+      "extension": "https://raw.githubusercontent.com/carlsonchik/larone/main/SPEC/extension-v0.4.json",
+      "fields": ["T", "S", "C", "E", "L", "V", "R"],
       "provenance": true
     }
   }
@@ -227,7 +261,7 @@ Convention: store overlay in `additional_kwargs["lar-1"]`:
 AIMessage(
   content="...",
   additional_kwargs={
-    "lar-1": {"C": "obs", "L": 0.85, "V": "verified_tool"}
+    "lar-1": {"C": "obs", "L": 0.85, "V": "verified_tool", "R": 0.5}
   },
 )
 ```
@@ -255,6 +289,8 @@ LAR-1 is designed to complement existing decentralized identity layers:
     "E": "direct",
     "L": 0.92,
     "V": "verified_peer",
+    "R": 1.0,
+    "R_label": "ultra",
     "provenance_key": "0xSunfishLoopAgent7F3A"
   }
 }
@@ -264,10 +300,11 @@ LAR-1 is designed to complement existing decentralized identity layers:
 
 1. **Overlay, not replacement** — enriches existing protocols without modifying them
 2. **Optional** — messages without LAR-1 continue to work normally
-3. **Progressive** — agents may send one field or all six
-4. **Machine-readable** — enums and numeric `L`; validated by JSON Schema
+3. **Progressive** — agents may send one field or all seven
+4. **Machine-readable** — enums and numeric `L`, `R`; validated by JSON Schema
 5. **Human-readable** — compact `LAR:` format for inline use
 6. **Verifiable** — `V` makes confidence claims accountable
+7. **Cross-model comparable** — `R` normalized to 0.0–1.0, enabling comparison across heterogeneous models
 
 ---
 
@@ -275,7 +312,7 @@ LAR-1 is designed to complement existing decentralized identity layers:
 
 Implementations **should** pass all fixtures in [`SPEC/conformance/`](SPEC/conformance/).
 
-Reference SDK: [`@lar-1/core`](packages/lar1-core/) (TypeScript, 74 tests).
+Reference SDK: [`@lar-1/core`](packages/lar1-core/) (TypeScript, 74+ tests).
 
 Round-trip requirements:
 
@@ -292,7 +329,7 @@ See **[GOVERNANCE.md](GOVERNANCE.md)** for versioning, change process, and depre
 
 ## 9. Status
 
-**Stable draft v0.2** — normative schema and conformance suite published.  
+**Stable draft v0.4** — normative schema and conformance suite published.  
 Open for community feedback and implementation experiments.
 
 ---
@@ -303,14 +340,14 @@ Open for community feedback and implementation experiments.
 |---------|------|---------|
 | 0.1 | 2026-06-22 | Initial discussion draft |
 | 0.2 | 2026-06-29 | Normative JSON Schema; enum refinement; field `V`; conformance suite; reference SDK |
+| 0.3 | 2026-07-09 | A2A integration; provenance_key; compact format grammar |
+| 0.4 | 2026-07-20 | Field `R` (Reasoning Effort) with normalization; cross-model comparison |
 
-### v0.1 → v0.2 breaking changes
+### v0.3 → v0.4 changes
 
-| Area | v0.1 | v0.2 |
+| Area | v0.3 | v0.4 |
 |------|------|------|
-| `T` | `now`, `recall:<id>`, `spec:<range>`, … | `now`, `past`, `recall`, `future` |
-| `S` | `workspace:<name>`, `channel:<id>`, … | `here`, `there`, `meta` |
-| `C` | `obs`, `inf`, `dec`, `exp`, `meta`, `unc` | `obs`, `hyp`, `mem`, `det`, `inf`, `rev` |
-| `E` | `direct:<source>`, `derived:<chain>`, … | `direct`, `derived`, `aggregated`, `reported` |
-| `L` | float or `high`/`medium`/`low` | float `0.0`–`1.0` only |
-| `V` | — | new field |
+| Dimensions | Six | Seven (added `R`) |
+| Compact keys | `T`, `S`, `C`, `E`, `L`, `V`, `PK` | Added `R`, `R_raw`, `R_scale`, `R_label` |
+| Schema | Six fields | Seven fields |
+| Extension URI | `extension-v0.3.json` | `extension-v0.4.json` |

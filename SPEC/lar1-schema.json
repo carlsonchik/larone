@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://raw.githubusercontent.com/carlsonchik/larone/main/SPEC/lar1-schema.json",
   "title": "LAR-1 Semantic Overlay",
-  "description": "JSON Schema for Content-Type: application/lar+json. LAR-1 adds temporal, spatial, cognitive, evidential, confidence, and verification dimensions to agent messages.",
+  "description": "JSON Schema for Content-Type: application/lar+json. LAR-1 adds temporal, spatial, cognitive, evidential, confidence, verification, and reasoning-effort dimensions to agent messages.",
   "type": "object",
   "required": ["LAR-1"],
   "additionalProperties": false,
@@ -50,21 +50,46 @@
             "unverified",
             "verified_human",
             "verified_tool",
-            "verified_crossref"
+            "verified_crossref",
+            "verified_peer"
           ]
+        },
+        "R": {
+          "type": "number",
+          "description": "Reasoning effort — normalized to 0.0–1.0 relative to the model's maximum capability. See R_raw, R_scale, R_label for provenance.",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "R_raw": {
+          "type": "integer",
+          "description": "Raw reasoning effort value on the model's native scale (optional companion to R).",
+          "minimum": 0
+        },
+        "R_scale": {
+          "type": "integer",
+          "description": "Maximum of the model's native reasoning-effort scale (optional companion to R).",
+          "minimum": 1
+        },
+        "R_label": {
+          "type": "string",
+          "description": "Human-readable label for the reasoning effort level (e.g. low, medium, high, max, ultra)."
+        },
+        "provenance_key": {
+          "type": "string",
+          "description": "Cryptographic identity — wallet address, PGP key ID, or /llms.txt URL."
         }
       },
       "minProperties": 1
     }
   },
   "x-lar1-compact-format": {
-    "version": "0.2",
+    "version": "0.4",
     "summary": "Human-readable inline representation prefixed with LAR:",
     "grammar": {
       "production": "compact ::= \"LAR:\" pair ( \",\" pair )*",
       "pair": "pair ::= KEY \"=\" VALUE",
-      "KEY": "One of: T | S | C | E | L | V (case-sensitive, uppercase)",
-      "VALUE": "enum literal for T,S,C,E,V | decimal for L (0..1 inclusive)",
+      "KEY": "One of: T | S | C | E | L | V | R | R_raw | R_scale | R_label | PK (case-sensitive, uppercase)",
+      "VALUE": "enum literal for T,S,C,E,V,R_label | decimal for L,R | integer for R_raw,R_scale",
       "separator": "Comma between pairs; no spaces required but allowed after commas",
       "prefix": "Must start with literal LAR: (case-sensitive)",
       "order": "Pairs may appear in any order; duplicate keys are invalid (last wins is NOT defined — parsers MUST reject duplicates)",
@@ -76,20 +101,25 @@
       "C": ["obs", "hyp", "mem", "det", "inf", "rev"],
       "E": ["direct", "derived", "aggregated", "reported"],
       "L": "number in [0, 1]",
+      "R": "number in [0, 1]",
+      "R_raw": "integer >= 0",
+      "R_scale": "integer >= 1",
+      "R_label": "string",
       "V": [
         "unverified",
         "verified_human",
         "verified_tool",
-        "verified_crossref"
+        "verified_crossref",
+        "verified_peer"
       ]
     },
     "examples": [
-      "LAR:T=now,S=here,C=obs,E=direct,L=0.95,V=verified_tool",
-      "LAR:C=inf,L=0.6,V=unverified",
-      "LAR:T=recall,S=there,C=mem,E=reported,L=0.4"
+      "LAR:T=now,S=here,C=obs,E=direct,L=0.95,V=verified_tool,R=0.83,R_raw=5,R_scale=6,R_label=high",
+      "LAR:C=inf,L=0.6,V=unverified,R=0.5",
+      "LAR:T=recall,S=there,C=mem,E=reported,L=0.4,R=0.67,R_label=medium"
     ],
     "mappingToJson": {
-      "description": "Each KEY=VALUE pair maps to the same key inside the LAR-1 object. L is parsed as JSON number.",
+      "description": "Each KEY=VALUE pair maps to the same key inside the LAR-1 object. L and R are parsed as JSON number. R_raw and R_scale as JSON integer.",
       "envelope": "Compact format represents the inner object only; serializers wrap as { \"LAR-1\": { ... } } for application/lar+json"
     }
   }

@@ -1,0 +1,14 @@
+{
+  "LAR-1": {
+    "T": "now",
+    "S": "here",
+    "C": "inf",
+    "E": "derived",
+    "L": 0.78,
+    "V": "unverified",
+    "R": 0.83,
+    "R_raw": 5,
+    "R_scale": 6,
+    "R_label": "high"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "LAR-1": {
+    "T": "recall",
+    "S": "there",
+    "C": "mem",
+    "E": "reported",
+    "L": 0.4,
+    "R": 0.67,
+    "R_label": "medium"
+  }
+}

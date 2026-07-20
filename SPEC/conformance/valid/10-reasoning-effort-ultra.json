@@ -1,0 +1,13 @@
+{
+  "LAR-1": {
+    "T": "now",
+    "C": "obs",
+    "L": 0.95,
+    "V": "verified_tool",
+    "R": 1.0,
+    "R_raw": 6,
+    "R_scale": 6,
+    "R_label": "ultra",
+    "provenance_key": "0xABC...123"
+  }
+}
