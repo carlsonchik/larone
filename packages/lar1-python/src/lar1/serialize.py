@@ -27,7 +27,7 @@ def deserialize_fields(json_str: str) -> Lar1Fields:
 
 
 def _format_value(key: str, value: object) -> str:
-    if key == "L" and isinstance(value, float) and value == int(value):
+    if isinstance(value, float) and value == int(value):
         return str(int(value))
     return str(value)
 

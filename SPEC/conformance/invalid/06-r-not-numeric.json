@@ -1,5 +1,6 @@
 {
-  "LAR-1": {
-    "R": "high"
-  }
+  "id": "invalid-06-r-not-numeric",
+  "description": "R value is not numeric",
+  "input": "LAR:R=high",
+  "error": "INVALID_LIKELIHOOD"
 }

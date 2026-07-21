@@ -1,14 +1,19 @@
 {
-  "LAR-1": {
-    "T": "now",
-    "C": "obs",
-    "L": 0.95,
-    "V": "verified_tool",
-    "R": 1.0,
-    "R_raw": 6,
-    "R_scale": 6,
-    "R_label": "ultra",
-    "R_strategy": "debate",
-    "provenance_key": "0xABC...123"
+  "id": "valid-10-reasoning-effort-ultra",
+  "description": "R_strategy with debate, ultra effort, provenance_key",
+  "input": "LAR:T=now,C=obs,L=0.95,V=verified_tool,R=1,R_raw=6,R_scale=6,R_label=ultra,R_strategy=debate,provenance_key=0xABC...123",
+  "expected": {
+    "LAR-1": {
+      "T": "now",
+      "C": "obs",
+      "L": 0.95,
+      "V": "verified_tool",
+      "R": 1.0,
+      "R_raw": 6,
+      "R_scale": 6,
+      "R_label": "ultra",
+      "R_strategy": "debate",
+      "provenance_key": "0xABC...123"
+    }
   }
 }

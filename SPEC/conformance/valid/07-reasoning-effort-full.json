@@ -1,15 +1,20 @@
 {
-  "LAR-1": {
-    "T": "now",
-    "S": "here",
-    "C": "inf",
-    "E": "derived",
-    "L": 0.78,
-    "V": "unverified",
-    "R": 0.83,
-    "R_raw": 5,
-    "R_scale": 6,
-    "R_label": "high",
-    "R_strategy": "cot"
+  "id": "valid-07-reasoning-effort-full",
+  "description": "Full R_strategy with cot (chain-of-thought)",
+  "input": "LAR:T=now,S=here,C=inf,E=derived,L=0.78,V=unverified,R=0.83,R_raw=5,R_scale=6,R_label=high,R_strategy=cot",
+  "expected": {
+    "LAR-1": {
+      "T": "now",
+      "S": "here",
+      "C": "inf",
+      "E": "derived",
+      "L": 0.78,
+      "V": "unverified",
+      "R": 0.83,
+      "R_raw": 5,
+      "R_scale": 6,
+      "R_label": "high",
+      "R_strategy": "cot"
+    }
   }
 }

@@ -1,5 +1,8 @@
 import { ENUMS, Lar1Data, Lar1Envelope } from "./types.js";
 
+const OPTIONAL_STRING_KEYS = new Set<string>(["R_label", "R_strategy", "provenance_key"]);
+const OPTIONAL_NUMERIC_KEYS = new Set<string>(["R_raw", "R_scale"]);
+
 function isLikelihood(n: unknown): n is number {
   return typeof n === "number" && !Number.isNaN(n) && n >= 0 && n <= 1;
 }
@@ -14,7 +17,11 @@ function hasEnumValue<K extends keyof typeof ENUMS>(
   );
 }
 
-/** Validate inner LAR-1 fields against v0.2 schema rules */
+function isPositiveInt(n: unknown): n is number {
+  return typeof n === "number" && Number.isInteger(n) && n >= 0;
+}
+
+/** Validate inner LAR-1 fields against v0.4 schema rules */
 export function validate(data: Lar1Data): boolean {
   if (data === null || typeof data !== "object") {
     return false;
@@ -44,6 +51,18 @@ export function validate(data: Lar1Data): boolean {
         break;
       case "L":
         if (!isLikelihood(data.L)) return false;
+        break;
+      case "R":
+        if (!isLikelihood(data.R)) return false;
+        break;
+      case "R_raw":
+      case "R_scale":
+        if (!isPositiveInt(data[key])) return false;
+        break;
+      case "R_label":
+      case "R_strategy":
+      case "provenance_key":
+        if (typeof data[key] !== "string") return false;
         break;
       default:
         return false;

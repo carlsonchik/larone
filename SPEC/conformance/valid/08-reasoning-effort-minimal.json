@@ -1,8 +1,13 @@
 {
-  "LAR-1": {
-    "C": "inf",
-    "L": 0.6,
-    "R": 0.5,
-    "R_strategy": "reflection"
+  "id": "valid-08-reasoning-effort-minimal",
+  "description": "Minimal R_strategy with reflection",
+  "input": "LAR:C=inf,L=0.6,R=0.5,R_strategy=reflection",
+  "expected": {
+    "LAR-1": {
+      "C": "inf",
+      "L": 0.6,
+      "R": 0.5,
+      "R_strategy": "reflection"
+    }
   }
 }

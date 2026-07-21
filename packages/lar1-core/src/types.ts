@@ -1,4 +1,4 @@
-/** LAR-1 field enums (v0.2) */
+/** LAR-1 field enums and types (v0.4) */
 
 export type TemporalFrame = "now" | "past" | "recall" | "future";
 export type SpatialFrame = "here" | "there" | "meta";
@@ -28,6 +28,18 @@ export interface Lar1Fields {
   E?: EvidenceGrounding;
   L?: number;
   V?: VerificationStatus;
+  /** Reasoning Effort (0.0–1.0 normalized) */
+  R?: number;
+  /** Original value on the model's native scale */
+  R_raw?: number;
+  /** Maximum of the model's native scale */
+  R_scale?: number;
+  /** Human-readable label (e.g. low, medium, high, max, ultra) */
+  R_label?: string;
+  /** Reasoning method: cot, tot, debate, tool-use, reflection, intuition */
+  R_strategy?: string;
+  /** Cryptographic identity (e.g. did:pkh, wallet address) */
+  provenance_key?: string;
 }
 
 /** application/lar+json envelope */
@@ -36,6 +48,20 @@ export interface Lar1Envelope {
 }
 
 export type Lar1Data = Lar1Fields;
+
+export type Lar1Key =
+  | "T"
+  | "S"
+  | "C"
+  | "E"
+  | "L"
+  | "V"
+  | "R"
+  | "R_raw"
+  | "R_scale"
+  | "R_label"
+  | "R_strategy"
+  | "provenance_key";
 
 export type Lar1ErrorCode =
   | "EMPTY_INPUT"
@@ -70,5 +96,3 @@ export const ENUMS = {
     "verified_crossref",
   ] as const,
 } as const;
-
-export type Lar1Key = keyof typeof ENUMS | "L";

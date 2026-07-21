@@ -1,6 +1,10 @@
 import { Lar1Data, Lar1Envelope } from "./types.js";
 
-const FIELD_ORDER: (keyof Lar1Data)[] = ["T", "S", "C", "E", "L", "V"];
+const FIELD_ORDER: (keyof Lar1Data)[] = [
+  "T", "S", "C", "E", "L", "V",
+  "R", "R_raw", "R_scale", "R_label", "R_strategy",
+  "provenance_key",
+];
 
 /** Serialize inner fields to application/lar+json JSON string */
 export function serialize(data: Lar1Data): string {
@@ -20,7 +24,13 @@ export function compact(data: Lar1Data): string {
   for (const key of FIELD_ORDER) {
     const value = data[key];
     if (value === undefined) continue;
-    parts.push(`${key}=${value}`);
+    // Format L and R compactly
+    if ((key === "L" || key === "R") && typeof value === "number") {
+      // Keep as-is for compact representation
+      parts.push(`${key}=${value}`);
+    } else {
+      parts.push(`${key}=${value}`);
+    }
   }
 
   if (parts.length === 0) {

@@ -1,4 +1,4 @@
-"""LAR-1 v0.2 field enums."""
+"""LAR-1 v0.4 field enums."""
 
 from __future__ import annotations
 
@@ -32,6 +32,13 @@ class Lar1Fields(TypedDict, total=False):
     E: EvidenceGrounding
     L: float
     V: VerificationStatus
+    # v0.4 fields
+    R: float
+    R_raw: int
+    R_scale: int
+    R_label: str
+    R_strategy: str
+    provenance_key: str
 
 
 Lar1Envelope = TypedDict("Lar1Envelope", {"LAR-1": Lar1Fields})
@@ -50,6 +57,14 @@ ENUMS: Final[dict[str, tuple[str, ...]]] = {
     ),
 }
 
-VALID_KEYS: Final[frozenset[str]] = frozenset({"T", "S", "C", "E", "L", "V"})
-FIELD_ORDER: Final[tuple[str, ...]] = ("T", "S", "C", "E", "L", "V")
+VALID_KEYS: Final[frozenset[str]] = frozenset({
+    "T", "S", "C", "E", "L", "V",
+    "R", "R_raw", "R_scale", "R_label", "R_strategy",
+    "provenance_key",
+})
+FIELD_ORDER: Final[tuple[str, ...]] = (
+    "T", "S", "C", "E", "L", "V",
+    "R", "R_raw", "R_scale", "R_label", "R_strategy",
+    "provenance_key",
+)
 PREFIX: Final[str] = "LAR:"

@@ -1,12 +1,17 @@
 {
-  "LAR-1": {
-    "T": "recall",
-    "S": "there",
-    "C": "mem",
-    "E": "reported",
-    "L": 0.4,
-    "R": 0.67,
-    "R_label": "medium",
-    "R_strategy": "intuition"
+  "id": "valid-09-reasoning-effort-3scale",
+  "description": "R_strategy with intuition, 3-scale format",
+  "input": "LAR:T=recall,S=there,C=mem,E=reported,L=0.4,R=0.67,R_label=medium,R_strategy=intuition",
+  "expected": {
+    "LAR-1": {
+      "T": "recall",
+      "S": "there",
+      "C": "mem",
+      "E": "reported",
+      "L": 0.4,
+      "R": 0.67,
+      "R_label": "medium",
+      "R_strategy": "intuition"
+    }
   }
 }

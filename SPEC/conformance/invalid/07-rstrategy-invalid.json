@@ -1,5 +1,6 @@
 {
-  "LAR-1": {
-    "R_strategy": "quantum"
-  }
+  "id": "invalid-07-rstrategy-invalid",
+  "description": "R_strategy with unrecognized value",
+  "input": "LAR:R_strategy=quantum",
+  "error": "INVALID_ENUM"
 }
