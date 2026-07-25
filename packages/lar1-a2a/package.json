@@ -1,7 +1,7 @@
 {
   "name": "@lar-1/a2a",
-  "version": "0.3.0",
-  "description": "LAR-1 integration profile for Google A2A — typed parts, extensions, agent card",
+  "version": "0.4.0",
+  "description": "LAR-1 integration profile for Google A2A \u2014 typed parts, extensions, agent card",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -39,5 +39,9 @@
   "publishConfig": {
     "access": "public"
   },
-  "keywords": ["lar-1", "a2a", "agent"]
+  "keywords": [
+    "lar-1",
+    "a2a",
+    "agent"
+  ]
 }

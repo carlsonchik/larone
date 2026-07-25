@@ -1,8 +1,5 @@
 import { ENUMS, Lar1Data, Lar1Envelope } from "./types.js";
 
-const OPTIONAL_STRING_KEYS = new Set<string>(["R_label", "R_strategy", "provenance_key"]);
-const OPTIONAL_NUMERIC_KEYS = new Set<string>(["R_raw", "R_scale"]);
-
 function isLikelihood(n: unknown): n is number {
   return typeof n === "number" && !Number.isNaN(n) && n >= 0 && n <= 1;
 }
@@ -17,11 +14,7 @@ function hasEnumValue<K extends keyof typeof ENUMS>(
   );
 }
 
-function isPositiveInt(n: unknown): n is number {
-  return typeof n === "number" && Number.isInteger(n) && n >= 0;
-}
-
-/** Validate inner LAR-1 fields against v0.4 schema rules */
+/** Validate inner LAR-1 fields against v0.4 schema rules (includes R-register) */
 export function validate(data: Lar1Data): boolean {
   if (data === null || typeof data !== "object") {
     return false;
@@ -32,8 +25,14 @@ export function validate(data: Lar1Data): boolean {
     return false;
   }
 
+  const enumKeys: (keyof typeof ENUMS)[] = [
+    "T", "S", "C", "E", "V",
+    "R", "R_raw", "R_scale", "R_label", "R_strategy", "R_plausibility",
+  ];
+
   for (const key of keys) {
     switch (key) {
+      // Semantic overlay
       case "T":
         if (!hasEnumValue("T", data.T)) return false;
         break;
@@ -52,17 +51,24 @@ export function validate(data: Lar1Data): boolean {
       case "L":
         if (!isLikelihood(data.L)) return false;
         break;
+      // R-Register
       case "R":
-        if (!isLikelihood(data.R)) return false;
+        if (!hasEnumValue("R", data.R)) return false;
         break;
       case "R_raw":
+        if (!hasEnumValue("R_raw", data.R_raw)) return false;
+        break;
       case "R_scale":
-        if (!isPositiveInt(data[key])) return false;
+        if (!hasEnumValue("R_scale", data.R_scale)) return false;
         break;
       case "R_label":
+        if (!hasEnumValue("R_label", data.R_label)) return false;
+        break;
       case "R_strategy":
-      case "provenance_key":
-        if (typeof data[key] !== "string") return false;
+        if (!hasEnumValue("R_strategy", data.R_strategy)) return false;
+        break;
+      case "R_plausibility":
+        if (!hasEnumValue("R_plausibility", data.R_plausibility)) return false;
         break;
       default:
         return false;

@@ -1,5 +1,6 @@
 {
   "id": "https://raw.githubusercontent.com/carlsonchik/larone/main/SPEC/extension-v0.4.json",
+<<<<<<< HEAD
   "name": "LAR-1 Semantic Overlay v0.4",
   "version": "0.4",
   "description": "Adds temporal, spatial, cognitive, evidential, confidence, verification, and reasoning-effort metadata to agent messages.",
@@ -7,6 +8,16 @@
   "schema": "https://raw.githubusercontent.com/carlsonchik/larone/main/SPEC/lar1-schema.json",
   "repository": "https://github.com/carlsonchik/larone",
   "fields": ["T", "S", "C", "E", "L", "V", "R"],
+=======
+  "name": "LAR-1 Semantic Overlay + R-Register",
+  "version": "0.4",
+  "description": "Adds temporal, spatial, cognitive, evidential, confidence, verification metadata to agent messages, plus R-register harness control primitives (routing, tools, orchestration, memory, strategy, plausibility).",
+  "mediaType": "application/lar+json",
+  "schema": "https://raw.githubusercontent.com/carlsonchik/larone/main/SPEC/lar1-schema.json",
+  "repository": "https://github.com/carlsonchik/larone",
+  "fields": ["T", "S", "C", "E", "L", "V"],
+  "rRegister": ["R", "R_raw", "R_scale", "R_label", "R_strategy", "R_plausibility"],
+>>>>>>> aed14c5 (LAR-1 v0.4: R-register harness control primitives)
   "compactPrefix": "LAR:",
   "conformance": "https://github.com/carlsonchik/larone/tree/main/SPEC/conformance",
   "referenceImplementation": {

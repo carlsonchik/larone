@@ -1,7 +1,7 @@
 {
   "name": "@lar-1/core",
-  "version": "0.3.1",
-  "description": "Reference implementation of LAR-1 semantic overlay — parse, validate, serialize",
+  "version": "0.4.0",
+  "description": "Reference implementation of LAR-1 semantic overlay \u2014 parse, validate, serialize",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -41,7 +41,13 @@
     "test": "npm run build && node --test 'dist/test/*.test.js'",
     "prepublishOnly": "npm run build"
   },
-  "keywords": ["lar-1", "agent", "mcp", "a2a", "semantic-overlay"],
+  "keywords": [
+    "lar-1",
+    "agent",
+    "mcp",
+    "a2a",
+    "semantic-overlay"
+  ],
   "license": "MIT",
   "publishConfig": {
     "access": "public"

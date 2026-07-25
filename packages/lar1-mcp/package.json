@@ -1,7 +1,7 @@
 {
   "name": "@lar-1/mcp",
-  "version": "0.3.0",
-  "description": "LAR-1 MCP integration — _meta profile and tool result middleware",
+  "version": "0.4.0",
+  "description": "LAR-1 MCP integration \u2014 _meta profile and tool result middleware",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -40,5 +40,9 @@
   "publishConfig": {
     "access": "public"
   },
-  "keywords": ["lar-1", "mcp", "agent"]
+  "keywords": [
+    "lar-1",
+    "mcp",
+    "agent"
+  ]
 }

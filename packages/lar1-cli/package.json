@@ -1,12 +1,14 @@
 {
   "name": "@lar-1/cli",
-  "version": "0.3.1",
-  "description": "CLI for LAR-1 semantic overlay — validate, compact, json",
+  "version": "0.4.0",
+  "description": "CLI for LAR-1 semantic overlay \u2014 validate, compact, json",
   "type": "module",
   "bin": {
     "lar1": "./dist/cli.js"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsc",
     "prepublishOnly": "npm run build"
@@ -27,5 +29,9 @@
   "publishConfig": {
     "access": "public"
   },
-  "keywords": ["lar-1", "cli", "agent"]
+  "keywords": [
+    "lar-1",
+    "cli",
+    "agent"
+  ]
 }

@@ -1,6 +1,6 @@
-# LAR-1 — Specification v0.4 (Discussion Draft)
+# LAR-1 — Specification v0.3 (Discussion Draft)
 
-> **Latent Agent Register** — Semantic Overlay for Agent Communication
+> **Latent Agent Register** — Semantic Overlay + Harness Control for Agent Communication
 
 **Normative artifacts:**
 
@@ -8,28 +8,36 @@
 |----------|------|
 | JSON Schema | [`SPEC/lar1-schema.json`](SPEC/lar1-schema.json) |
 | Conformance fixtures | [`SPEC/conformance/`](SPEC/conformance/) |
-| Extension descriptor | [`SPEC/extension-v0.4.json`](SPEC/extension-v0.4.json) |
+| Extension descriptor | [`SPEC/extension-v0.2.json`](SPEC/extension-v0.2.json) |
 | Reference implementation | [`packages/lar1-core/`](packages/lar1-core/) |
 
-**Extension URI (A2A `extensions[]`):** `https://raw.githubusercontent.com/carlsonchik/larone/main/SPEC/extension-v0.4.json`  
+**Extension URI (A2A `extensions[]`):** `https://raw.githubusercontent.com/carlsonchik/larone/main/SPEC/extension-v0.2.json`  
 **Media type:** `application/lar+json`
 
 ---
 
 ## 1. Problem
 
-Agent messages are routable before they are semantically legible.  
+Agent messages are routable before they are semantically legible.
+
+A separate problem: agent harness configuration (context construction, tool access,
+decoding strategy, orchestration topology, memory policy, output handling) is
+typically treated as a single opaque prompt or a fixed deployment artifact.
+Two agents using the same protocol cannot express *how they are configured*
+in a machine-readable way. LAR-1 addresses both: the **semantic overlay**
+(T, S, C, E, L, V) for what a message means, and the **R-register**
+(R, R_raw, R_scale, R_label, R_strategy) for how the agent's control layer
+is configured.  
 A task can be delegated and a tool called, yet downstream systems lack a compact representation of:
 
 - Is this an observation or an inference?
 - Is it grounded in current context or retrieved memory?
 - Does it reflect ambiguity or a committed judgment?
 - What is the confidence level — and has it been verified?
-- **How much reasoning effort was invested in producing this claim?**
 
-Modern LLMs (GPT-5.6, DeepSeek-R1, Claude) support multiple reasoning-effort levels. Without an explicit field, a downstream agent cannot distinguish between a quick heuristic answer and a deeply reasoned one — even when both carry high confidence.
+---
 
-## 2. The Seven Dimensions
+## 2. LAR-1 Semantic Overlay (six dimensions)
 
 All fields are **optional**; send one or more (progressive disclosure). At least one field is required per message overlay.
 
@@ -90,52 +98,6 @@ All fields are **optional**; send one or more (progressive disclosure). At least
 
 > **Note:** Research on multi-agent provenance (e.g. LDP) shows that self-reported confidence without verification can mislead downstream agents. Always pair meaningful `L` values with an accurate `V`.
 
-### R — Reasoning Effort (new in v0.4)
-
-| Sub-field | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `R` | float (0.0–1.0) | ✅ yes | Normalized reasoning effort, relative to the model's maximum |
-| `R_raw` | int | ❌ | Original value on the model's native scale |
-| `R_scale` | int | ❌ | Maximum of the model's native scale |
-| `R_label` | string | ❌ | Human-readable label (e.g. `low`, `medium`, `high`, `max`, `ultra`) |
-| `R_strategy` | string | ❌ | Reasoning method used to produce the claim. See table below. |
-
-**R_strategy values:**
-
-| Value | Meaning |
-|-------|---------|
-| `cot` | Chain-of-thought — sequential reasoning |
-| `tot` | Tree-of-thought — branching, path exploration |
-| `debate` | Multi-perspective debate or dialogue |
-| `tool-use` | Tool invocation and result aggregation |
-| `reflection` | Iterative self-check, self-correction |
-| `intuition` | Direct response without explicit intermediate reasoning |
-
-**R_strategy vs C (Cognitive Stance):** `C` answers *what kind of claim this is* (observation, inference, hypothesis, etc.). `R_strategy` answers *how the claim was produced* (chain-of-thought, tool-use, etc.). They are orthogonal:
-
-| C | R_strategy | Meaning |
-|---|-----------|---------|
-| `obs` | `tool-use` | Observed via a tool |
-| `obs` | `intuition` | Direct zero-shot observation |
-| `inf` | `cot` | Inferred via chain of reasoning |
-| `inf` | `tot` | Inferred via tree-of-thought exploration |
-| `rev` | `debate` | Evaluated through multi-perspective debate |
-| `inf` | `reflection` | Inferred, then verified through self-correction |
-
-**Normalization rule:** `R = R_raw / R_scale`, where `R_scale` is the maximum reasoning effort the model is capable of. For continuous scales (0.0–1.0), `R = R_raw` and `R_scale = 1`.
-
-**Comparison rule:** When two messages both carry `R`, compare by `R` directly. If only one carries `R`, the value is treated as unknown (no inference drawn).
-
-**Examples:**
-
-| Model | R | R_raw | R_scale | R_label | Meaning |
-|-------|---|-------|---------|---------|---------|
-| GPT-5.6 | 1.0 | 6 | 6 | ultra | Maximum effort |
-| GPT-5.6 | 0.5 | 3 | 6 | high | Half of maximum |
-| 3-level model | 1.0 | 3 | 3 | max | Maximum for this model |
-| 3-level model | 0.67 | 2 | 3 | medium | Two-thirds of maximum |
-| Continuous model | 0.7 | 0.7 | 1 | — | 70% of maximum |
-
 ### provenance_key — Cryptographic Identity (optional)
 
 A field pointing to the signer's public key or wallet address, making the semantic annotation independently verifiable without a separate trust registry.
@@ -157,9 +119,104 @@ This field is designed to complement existing decentralized identity layers (e.g
 
 ---
 
-## 3. Wire Formats
+---
 
-### 3.1 JSON (recommended for A2A)
+## 3. R-Register: Harness Control Primitives
+
+The R-register is a separate name space for describing the **control layer**
+that turns a base LLM into an executable agent. While the semantic overlay
+(T, S, C, E, L, V) describes what a message *means*, the R-register describes
+*how the agent is configured* — context assembly, tool access, generation
+strategy, orchestration topology, memory policy, and output handling.
+
+This decomposition draws on the six control surfaces identified in
+MemoHarness (arXiv:2607.14159) and maps them onto LAR-1 primitives.
+
+All R-register fields are **optional**. Sending an R-field does not require
+sending any semantic overlay field, and vice versa.
+
+### 3.1 Product Space
+
+The harness is a tuple over six control surfaces:
+
+```
+W ∈ 𝒲 = R × R_raw × R_scale × R_label × R_strategy × R_plausibility
+```
+
+Each component controls one functional dimension of the agent's pipeline.
+
+### 3.2 Primitive Reference
+
+| Field | Domain | Meaning | MemoHarness analog |
+|-------|--------|---------|--------------------|
+| `R` | `{passive, moderate, aggressive, contextual}` | Relevance routing depth – how aggressively context is filtered before entering the model | Context |
+| `R_raw` | `{passthrough, structured, validated}` | Tool interface mode – raw passthrough, structured schema, or validated output | Tool |
+| `R_scale` | `{single, chain, parallel, graph, adaptive}` | Orchestration topology – how tool/model calls are sequenced | Orchestration |
+| `R_label` | `{none, ephemeral, persistent, semantic, relational}` | Memory binding policy – what is retained and how | Memory |
+| `R_strategy` | `{deterministic, temperature, top_p, beam, adaptive}` | Decoding strategy – how generation is parameterized | Generation |
+| `R_plausibility` | `{none, confidence, consistency, crossref}` | Output validation / signaling – what /third or internal checks are applied | Output |
+
+### 3.3 Diagnostic Operator
+
+For each execution, the R-register records a diagnostic tuple:
+
+```
+z = (success, primary_failure_dimension, secondary_dimensions, analysis)
+```
+
+- `success`: boolean
+- `primary_failure_dimension`: one of {R, R_raw, R_scale, R_label, R_strategy, R_plausibility, ∅}
+- `secondary_dimensions`: subset of the above
+- `analysis`: natural-language diagnosis
+
+### 3.4 Dual-Layer Experience Bank
+
+Harness configurations, trajectories, and diagnostics are stored in a
+bank with two layers:
+
+- **Per-case entries**: each execution with its configuration,
+  trajectory, reward, cost, and diagnosis
+- **Global patterns**: distilled cross-case regularities extracted
+  periodically (e.g. "high R_scale with low R_strategy causes
+timeout on multi-hop tasks")
+
+This bank is indexed by provenance_key for cross-system traceability.
+
+### 3.5 Correctness-First Selection
+
+When choosing between harness configurations, the rule is:
+
+1. Maximize primary reward (task success)
+2. Minimize token cost as tiebreaker only
+
+### 3.6 R-Register JSON Format
+
+```json
+{
+  "LAR-1": {
+    "T": "now",
+    "C": "inf",
+    "L": 0.78,
+    "R": "moderate",
+    "R_scale": "chain",
+    "R_strategy": "temperature"
+  }
+}
+```
+
+Content-Type: `application/lar+json`
+
+### 3.7 Compact String
+
+```
+LAR:T=now,C=inf,L=0.78,R=moderate,R_scale=chain,R_strategy=temperature
+```
+
+All `R-*` keys follow the same format as semantic fields.
+
+## 4. Wire Formats
+
+### 4.1 JSON (recommended for A2A)
 
 ```json
 {
@@ -170,10 +227,6 @@ This field is designed to complement existing decentralized identity layers (e.g
     "E": "derived",
     "L": 0.78,
     "V": "unverified",
-    "R": 0.83,
-    "R_raw": 5,
-    "R_scale": 6,
-    "R_label": "high",
     "provenance_key": "0xABC...123"
   }
 }
@@ -184,15 +237,15 @@ Content-Type: `application/lar+json`
 ### 3.2 Compact string
 
 ```
-LAR:T=now,S=here,C=inf,E=derived,L=0.78,V=unverified,R=0.83,R_raw=5,R_scale=6,R_label=high,PK=0xABC123
+LAR:T=now,S=here,C=inf,E=derived,L=0.78,V=unverified,PK=0xABC123
 ```
 
-**Grammar (v0.4):**
+**Grammar (v0.3):**
 
 ```
 compact  ::= "LAR:" pair ( "," pair )*
 pair     ::= KEY "=" VALUE
-KEY      ::= "T" | "S" | "C" | "E" | "L" | "V" | "R" | "R_raw" | "R_scale" | "R_label" | "R_strategy" | "PK"
+KEY      ::= "T" | "S" | "C" | "E" | "L" | "V" | "PK"
 VALUE    ::= enum-literal | number | string
 ```
 
@@ -202,7 +255,7 @@ Rules:
 - Pairs may appear in any order.
 - Duplicate keys **must be rejected** by parsers.
 - At least one pair is required.
-- Canonical serialization order (recommended): `T`, `S`, `C`, `E`, `L`, `V`, `R`, `R_raw`, `R_scale`, `R_label`, `R_strategy`, `PK`.
+- Canonical serialization order (recommended): `T`, `S`, `C`, `E`, `L`, `V`, `PK`.
 - `PK` (provenance_key) is optional; when present, it SHOULD be the last field.
 
 ### 3.3 MCP `_meta` profile
@@ -216,19 +269,17 @@ Attach LAR-1 fields under `_meta["lar-1"]` on resources, tools, prompts, and too
       "T": "now",
       "C": "obs",
       "L": 0.9,
-      "V": "verified_tool",
-      "R": 0.5,
-      "R_label": "medium"
+      "V": "verified_tool"
     }
   }
 }
 ```
 
-Extension URI: `https://raw.githubusercontent.com/carlsonchik/larone/main/SPEC/extension-v0.4.json`
+Extension URI: `https://raw.githubusercontent.com/carlsonchik/larone/main/SPEC/extension-v0.2.json`
 
 ---
 
-## 4. Integration with A2A
+## 5. Integration with A2A
 
 ### Typed message part
 
@@ -240,7 +291,7 @@ Include extension URI in `Message.extensions`:
 
 ```json
 {
-  "extensions": ["https://raw.githubusercontent.com/carlsonchik/larone/main/SPEC/extension-v0.4.json"],
+  "extensions": ["https://raw.githubusercontent.com/carlsonchik/larone/main/SPEC/extension-v0.2.json"],
   "parts": [
     {
       "kind": "data",
@@ -249,9 +300,7 @@ Include extension URI in `Message.extensions`:
           "T": "now",
           "C": "obs",
           "L": 0.85,
-          "V": "verified_tool",
-          "R": 0.83,
-          "R_label": "high"
+          "V": "verified_tool"
         }
       }
     }
@@ -267,7 +316,8 @@ Include extension URI in `Message.extensions`:
     "LAR-1": {
       "version": "0.4",
       "extension": "https://raw.githubusercontent.com/carlsonchik/larone/main/SPEC/extension-v0.4.json",
-      "fields": ["T", "S", "C", "E", "L", "V", "R"],
+      "fields": ["T", "S", "C", "E", "L", "V"],
+      "rRegister": ["R", "R_raw", "R_scale", "R_label", "R_strategy", "R_plausibility"],
       "provenance": true
     }
   }
@@ -276,7 +326,7 @@ Include extension URI in `Message.extensions`:
 
 ---
 
-## 5. Integration with LangGraph / LangChain
+## 6. Integration with LangGraph / LangChain
 
 Convention: store overlay in `additional_kwargs["lar-1"]`:
 
@@ -284,7 +334,7 @@ Convention: store overlay in `additional_kwargs["lar-1"]`:
 AIMessage(
   content="...",
   additional_kwargs={
-    "lar-1": {"C": "obs", "L": 0.85, "V": "verified_tool", "R": 0.5}
+    "lar-1": {"C": "obs", "L": 0.85, "V": "verified_tool"}
   },
 )
 ```
@@ -293,7 +343,7 @@ See [`demos/langgraph-synthesis/`](demos/langgraph-synthesis/) for a working exa
 
 ---
 
-## 6. Integration with Wallet-Based Identity Systems
+## 7. Integration with Wallet-Based Identity Systems
 
 LAR-1 is designed to complement existing decentralized identity layers:
 
@@ -312,30 +362,34 @@ LAR-1 is designed to complement existing decentralized identity layers:
     "E": "direct",
     "L": 0.92,
     "V": "verified_peer",
-    "R": 1.0,
-    "R_label": "ultra",
     "provenance_key": "0xSunfishLoopAgent7F3A"
   }
 }
 ```
 
-## 7. Design Principles
+## 8. Design Principles
 
 1. **Overlay, not replacement** — enriches existing protocols without modifying them
 2. **Optional** — messages without LAR-1 continue to work normally
-3. **Progressive** — agents may send one field or all seven
-4. **Machine-readable** — enums and numeric `L`, `R`; validated by JSON Schema
+3. **Progressive** — agents may send one field or all six
+4. **Machine-readable** — enums and numeric `L`; validated by JSON Schema
 5. **Human-readable** — compact `LAR:` format for inline use
 6. **Verifiable** — `V` makes confidence claims accountable
-7. **Cross-model comparable** — `R` normalized to 0.0–1.0, enabling comparison across heterogeneous models
 
 ---
 
-## 8. Conformance
+## 9. Conformance
 
 Implementations **should** pass all fixtures in [`SPEC/conformance/`](SPEC/conformance/).
 
-Reference SDK: [`@lar-1/core`](packages/lar1-core/) (TypeScript, 74+ tests).
+Reference SDK: [`@lar-1/core`](packages/lar1-core/) (TypeScript, 85+ tests).
+
+R-register conformance tests (v0.4):
+- Parse/serialize each R-primitive
+- Diagnostic operator schema validation
+- Compact string round-trip with R-fields
+- Reject invalid R-enum values
+- Dual-layer experience bank schema (future)
 
 Round-trip requirements:
 
@@ -344,33 +398,34 @@ Round-trip requirements:
 
 ---
 
-## 8. Governance
+## 10. Governance
 
 See **[GOVERNANCE.md](GOVERNANCE.md)** for versioning, change process, and deprecation policy.
 
 ---
 
-## 9. Status
+## 11. Status
 
-**Stable draft v0.4** — normative schema and conformance suite published.  
+**Stable draft v0.2** — normative schema and conformance suite published.  
 Open for community feedback and implementation experiments.
 
 ---
 
-## 10. Version History
+## 12. Version History
 
 | Version | Date | Changes |
 |---------|------|---------|
 | 0.1 | 2026-06-22 | Initial discussion draft |
 | 0.2 | 2026-06-29 | Normative JSON Schema; enum refinement; field `V`; conformance suite; reference SDK |
-| 0.3 | 2026-07-09 | A2A integration; provenance_key; compact format grammar |
-| 0.4 | 2026-07-20 | Field `R` (Reasoning Effort) with normalization; cross-model comparison |
+| 0.4 | 2026-07-25 | R-register: harness control primitives (R, R_raw, R_scale, R_label, R_strategy, R_plausibility); diagnostic operator; dual-layer experience bank; correctness-first rule; product space formalism |
 
-### v0.3 → v0.4 changes
+### v0.1 → v0.2 breaking changes
 
-| Area | v0.3 | v0.4 |
+| Area | v0.1 | v0.2 |
 |------|------|------|
-| Dimensions | Six | Seven (added `R`) |
-| Compact keys | `T`, `S`, `C`, `E`, `L`, `V`, `PK` | Added `R`, `R_raw`, `R_scale`, `R_label` |
-| Schema | Six fields | Seven fields |
-| Extension URI | `extension-v0.3.json` | `extension-v0.4.json` |
+| `T` | `now`, `recall:<id>`, `spec:<range>`, … | `now`, `past`, `recall`, `future` |
+| `S` | `workspace:<name>`, `channel:<id>`, … | `here`, `there`, `meta` |
+| `C` | `obs`, `inf`, `dec`, `exp`, `meta`, `unc` | `obs`, `hyp`, `mem`, `det`, `inf`, `rev` |
+| `E` | `direct:<source>`, `derived:<chain>`, … | `direct`, `derived`, `aggregated`, `reported` |
+| `L` | float or `high`/`medium`/`low` | float `0.0`–`1.0` only |
+| `V` | — | newaking changes\n\n| Area | v0.1 | v0.2 |\n|------|------|------|\n| `T` | `now`, `recall:<id>`, `spec:<range>`, … | `now`, `past`, `recall`, `future` |\n| `S` | `workspace:<name>`, `channel:<id>`, … | `here`, `there`, `meta` |\n| `C` | `obs`, `inf`, `dec`, `exp`, `meta`, `unc` | `obs`, `hyp`, `mem`, `det`, `inf`, `rev` |\n| `E` | `direct:<source>`, `derived:<chain>`, … | `direct`, `derived`, `aggregated`, `reported` |\n| `L` | float or `high`/`medium`/`low` | float `0.0`–`1.0` only |\n| `V` | — | new field |"]}

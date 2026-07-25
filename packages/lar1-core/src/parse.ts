@@ -7,8 +7,10 @@ import {
 } from "./types.js";
 
 const PREFIX = "LAR:";
-const VALID_KEYS = new Set<string>(["T", "S", "C", "E", "L", "V", "R", "R_raw", "R_scale", "R_label", "R_strategy", "provenance_key"]);
-const STRATEGY_ENUM = new Set<string>(["cot", "tot", "debate", "tool-use", "reflection", "intuition"]);
+const VALID_KEYS = new Set<string>([
+  "T", "S", "C", "E", "L", "V",
+  "R", "R_raw", "R_scale", "R_label", "R_strategy", "R_plausibility",
+]);
 
 function assertEnum<K extends keyof typeof ENUMS>(
   key: K,
@@ -32,35 +34,9 @@ function parseLikelihood(raw: string): number {
   return n;
 }
 
-function parseR(raw: string): number {
-  const n = Number(raw);
-  if (raw === "" || Number.isNaN(n)) {
-    throw new Lar1ParseError("INVALID_LIKELIHOOD", `Invalid R=${raw}`);
-  }
-  if (n < 0 || n > 1) {
-    throw new Lar1ParseError("INVALID_LIKELIHOOD", `R out of range: ${n}`);
-  }
-  return n;
-}
-
-function parseIntValue(raw: string): number {
-  const n = Number(raw);
-  if (raw === "" || Number.isNaN(n) || !Number.isInteger(n)) {
-    throw new Lar1ParseError("INVALID_ENUM", `Invalid integer value: ${raw}`);
-  }
-  return n;
-}
-
-function assertStrategy(value: string): string {
-  if (!STRATEGY_ENUM.has(value)) {
-    throw new Lar1ParseError("INVALID_ENUM", `Invalid R_strategy=${value}`);
-  }
-  return value;
-}
-
 /**
  * Parse a LAR-1 compact string into inner fields (no envelope).
- * @example parse("LAR:T=now,C=obs,L=0.9")
+ * @example parse("LAR:T=now,C=obs,L=0.9,R=moderate,R_scale=chain")
  */
 export function parse(compact: string): Lar1Data {
   const trimmed = compact.trim();
@@ -121,22 +97,22 @@ export function parse(compact: string): Lar1Data {
         data.L = parseLikelihood(value);
         break;
       case "R":
-        data.R = parseR(value);
+        data.R = assertEnum("R", value);
         break;
       case "R_raw":
-        data.R_raw = parseIntValue(value);
+        data.R_raw = assertEnum("R_raw", value);
         break;
       case "R_scale":
-        data.R_scale = parseIntValue(value);
+        data.R_scale = assertEnum("R_scale", value);
         break;
       case "R_label":
-        data.R_label = value;
+        data.R_label = assertEnum("R_label", value);
         break;
       case "R_strategy":
-        data.R_strategy = assertStrategy(value);
+        data.R_strategy = assertEnum("R_strategy", value);
         break;
-      case "provenance_key":
-        data.provenance_key = value;
+      case "R_plausibility":
+        data.R_plausibility = assertEnum("R_plausibility", value);
         break;
     }
   }

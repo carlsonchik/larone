@@ -1,4 +1,4 @@
-/** LAR-1 field enums and types (v0.4) */
+/** LAR-1 field enums (v0.4 — includes R-register) */
 
 export type TemporalFrame = "now" | "past" | "recall" | "future";
 export type SpatialFrame = "here" | "there" | "meta";
@@ -20,26 +20,32 @@ export type VerificationStatus =
   | "verified_tool"
   | "verified_crossref";
 
-/** Inner LAR-1 object (semantic fields only) */
+// --- R-Register (Harness Control Primitives) ---
+
+export type RRegisterRouting = "passive" | "moderate" | "aggressive" | "contextual";
+export type RRegisterTool = "passthrough" | "structured" | "validated";
+export type RRegisterScale = "single" | "chain" | "parallel" | "graph" | "adaptive";
+export type RRegisterMemory = "none" | "ephemeral" | "persistent" | "semantic" | "relational";
+export type RRegisterStrategy = "deterministic" | "temperature" | "top_p" | "beam" | "adaptive";
+export type RRegisterPlausibility = "none" | "confidence" | "consistency" | "crossref";
+
+/** Inner LAR-1 object (semantic fields + R-register) */
 export interface Lar1Fields {
+  // Semantic overlay
   T?: TemporalFrame;
   S?: SpatialFrame;
   C?: CognitionStance;
   E?: EvidenceGrounding;
   L?: number;
   V?: VerificationStatus;
-  /** Reasoning Effort (0.0–1.0 normalized) */
-  R?: number;
-  /** Original value on the model's native scale */
-  R_raw?: number;
-  /** Maximum of the model's native scale */
-  R_scale?: number;
-  /** Human-readable label (e.g. low, medium, high, max, ultra) */
-  R_label?: string;
-  /** Reasoning method: cot, tot, debate, tool-use, reflection, intuition */
-  R_strategy?: string;
-  /** Cryptographic identity (e.g. did:pkh, wallet address) */
-  provenance_key?: string;
+
+  // R-Register (harness control)
+  R?: RRegisterRouting;
+  R_raw?: RRegisterTool;
+  R_scale?: RRegisterScale;
+  R_label?: RRegisterMemory;
+  R_strategy?: RRegisterStrategy;
+  R_plausibility?: RRegisterPlausibility;
 }
 
 /** application/lar+json envelope */
@@ -48,20 +54,6 @@ export interface Lar1Envelope {
 }
 
 export type Lar1Data = Lar1Fields;
-
-export type Lar1Key =
-  | "T"
-  | "S"
-  | "C"
-  | "E"
-  | "L"
-  | "V"
-  | "R"
-  | "R_raw"
-  | "R_scale"
-  | "R_label"
-  | "R_strategy"
-  | "provenance_key";
 
 export type Lar1ErrorCode =
   | "EMPTY_INPUT"
@@ -95,4 +87,12 @@ export const ENUMS = {
     "verified_tool",
     "verified_crossref",
   ] as const,
+  R: ["passive", "moderate", "aggressive", "contextual"] as const,
+  R_raw: ["passthrough", "structured", "validated"] as const,
+  R_scale: ["single", "chain", "parallel", "graph", "adaptive"] as const,
+  R_label: ["none", "ephemeral", "persistent", "semantic", "relational"] as const,
+  R_strategy: ["deterministic", "temperature", "top_p", "beam", "adaptive"] as const,
+  R_plausibility: ["none", "confidence", "consistency", "crossref"] as const,
 } as const;
+
+export type Lar1Key = keyof typeof ENUMS | "L";
