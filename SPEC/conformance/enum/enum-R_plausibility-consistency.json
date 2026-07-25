@@ -1,0 +1,10 @@
+{
+  "id": "enum-R_plausibility-consistency",
+  "description": "Enum coverage: R_plausibility=consistency",
+  "input": "LAR:R_plausibility=consistency",
+  "expected": {
+    "LAR-1": {
+      "R_plausibility": "consistency"
+    }
+  }
+}

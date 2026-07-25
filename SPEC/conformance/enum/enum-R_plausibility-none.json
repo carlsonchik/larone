@@ -1,0 +1,10 @@
+{
+  "id": "enum-R_plausibility-none",
+  "description": "Enum coverage: R_plausibility=none",
+  "input": "LAR:R_plausibility=none",
+  "expected": {
+    "LAR-1": {
+      "R_plausibility": "none"
+    }
+  }
+}

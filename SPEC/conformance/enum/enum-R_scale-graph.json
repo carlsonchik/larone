@@ -1,0 +1,10 @@
+{
+  "id": "enum-R_scale-graph",
+  "description": "Enum coverage: R_scale=graph",
+  "input": "LAR:R_scale=graph",
+  "expected": {
+    "LAR-1": {
+      "R_scale": "graph"
+    }
+  }
+}

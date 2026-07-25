@@ -1,0 +1,10 @@
+{
+  "id": "enum-R_label-persistent",
+  "description": "Enum coverage: R_label=persistent",
+  "input": "LAR:R_label=persistent",
+  "expected": {
+    "LAR-1": {
+      "R_label": "persistent"
+    }
+  }
+}

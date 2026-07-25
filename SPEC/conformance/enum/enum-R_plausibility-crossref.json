@@ -1,0 +1,10 @@
+{
+  "id": "enum-R_plausibility-crossref",
+  "description": "Enum coverage: R_plausibility=crossref",
+  "input": "LAR:R_plausibility=crossref",
+  "expected": {
+    "LAR-1": {
+      "R_plausibility": "crossref"
+    }
+  }
+}

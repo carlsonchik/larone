@@ -1,0 +1,10 @@
+{
+  "id": "enum-R-moderate",
+  "description": "Enum coverage: R=moderate",
+  "input": "LAR:R=moderate",
+  "expected": {
+    "LAR-1": {
+      "R": "moderate"
+    }
+  }
+}

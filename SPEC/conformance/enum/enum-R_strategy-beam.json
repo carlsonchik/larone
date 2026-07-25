@@ -1,0 +1,10 @@
+{
+  "id": "enum-R_strategy-beam",
+  "description": "Enum coverage: R_strategy=beam",
+  "input": "LAR:R_strategy=beam",
+  "expected": {
+    "LAR-1": {
+      "R_strategy": "beam"
+    }
+  }
+}

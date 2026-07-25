@@ -1,0 +1,10 @@
+{
+  "id": "enum-R-aggressive",
+  "description": "Enum coverage: R=aggressive",
+  "input": "LAR:R=aggressive",
+  "expected": {
+    "LAR-1": {
+      "R": "aggressive"
+    }
+  }
+}

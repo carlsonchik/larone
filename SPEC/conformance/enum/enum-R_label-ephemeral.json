@@ -1,0 +1,10 @@
+{
+  "id": "enum-R_label-ephemeral",
+  "description": "Enum coverage: R_label=ephemeral",
+  "input": "LAR:R_label=ephemeral",
+  "expected": {
+    "LAR-1": {
+      "R_label": "ephemeral"
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "id": "enum-R_scale-parallel",
+  "description": "Enum coverage: R_scale=parallel",
+  "input": "LAR:R_scale=parallel",
+  "expected": {
+    "LAR-1": {
+      "R_scale": "parallel"
+    }
+  }
+}

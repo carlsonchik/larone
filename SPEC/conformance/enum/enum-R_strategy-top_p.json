@@ -1,0 +1,10 @@
+{
+  "id": "enum-R_strategy-top_p",
+  "description": "Enum coverage: R_strategy=top_p",
+  "input": "LAR:R_strategy=top_p",
+  "expected": {
+    "LAR-1": {
+      "R_strategy": "top_p"
+    }
+  }
+}

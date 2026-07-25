@@ -1,0 +1,10 @@
+{
+  "id": "enum-R_strategy-deterministic",
+  "description": "Enum coverage: R_strategy=deterministic",
+  "input": "LAR:R_strategy=deterministic",
+  "expected": {
+    "LAR-1": {
+      "R_strategy": "deterministic"
+    }
+  }
+}

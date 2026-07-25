@@ -1,0 +1,10 @@
+{
+  "id": "enum-R_raw-validated",
+  "description": "Enum coverage: R_raw=validated",
+  "input": "LAR:R_raw=validated",
+  "expected": {
+    "LAR-1": {
+      "R_raw": "validated"
+    }
+  }
+}

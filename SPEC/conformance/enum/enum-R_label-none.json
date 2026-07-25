@@ -1,0 +1,10 @@
+{
+  "id": "enum-R_label-none",
+  "description": "Enum coverage: R_label=none",
+  "input": "LAR:R_label=none",
+  "expected": {
+    "LAR-1": {
+      "R_label": "none"
+    }
+  }
+}

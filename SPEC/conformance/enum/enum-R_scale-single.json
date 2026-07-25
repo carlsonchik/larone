@@ -1,0 +1,10 @@
+{
+  "id": "enum-R_scale-single",
+  "description": "Enum coverage: R_scale=single",
+  "input": "LAR:R_scale=single",
+  "expected": {
+    "LAR-1": {
+      "R_scale": "single"
+    }
+  }
+}

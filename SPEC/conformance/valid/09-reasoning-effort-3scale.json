@@ -1,7 +1,7 @@
 {
   "id": "valid-09-reasoning-effort-3scale",
-  "description": "R_strategy with intuition, 3-scale format",
-  "input": "LAR:T=recall,S=there,C=mem,E=reported,L=0.4,R=0.67,R_label=medium,R_strategy=intuition",
+  "description": "Mixed R-register and semantic overlay: recall + memory + reported + moderate routing + persistent memory + beam strategy + consistency plausibility",
+  "input": "LAR:T=recall,S=there,C=mem,E=reported,L=0.4,R=moderate,R_label=persistent,R_strategy=beam,R_plausibility=consistency",
   "expected": {
     "LAR-1": {
       "T": "recall",
@@ -9,9 +9,10 @@
       "C": "mem",
       "E": "reported",
       "L": 0.4,
-      "R": 0.67,
-      "R_label": "medium",
-      "R_strategy": "intuition"
+      "R": "moderate",
+      "R_label": "persistent",
+      "R_strategy": "beam",
+      "R_plausibility": "consistency"
     }
   }
 }

@@ -1,6 +1,6 @@
 {
   "id": "invalid-05-r-out-of-range",
-  "description": "R value exceeds 1.0",
+  "description": "R value is not a valid routing enum (R is now enum, not numeric)",
   "input": "LAR:R=1.5",
-  "error": "INVALID_LIKELIHOOD"
+  "error": "INVALID_ENUM"
 }

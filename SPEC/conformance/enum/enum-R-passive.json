@@ -1,0 +1,10 @@
+{
+  "id": "enum-R-passive",
+  "description": "Enum coverage: R=passive",
+  "input": "LAR:R=passive",
+  "expected": {
+    "LAR-1": {
+      "R": "passive"
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "id": "enum-R_scale-chain",
+  "description": "Enum coverage: R_scale=chain",
+  "input": "LAR:R_scale=chain",
+  "expected": {
+    "LAR-1": {
+      "R_scale": "chain"
+    }
+  }
+}

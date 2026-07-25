@@ -1,0 +1,10 @@
+{
+  "id": "enum-R-contextual",
+  "description": "Enum coverage: R=contextual",
+  "input": "LAR:R=contextual",
+  "expected": {
+    "LAR-1": {
+      "R": "contextual"
+    }
+  }
+}

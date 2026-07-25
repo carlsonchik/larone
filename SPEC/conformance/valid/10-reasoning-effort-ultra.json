@@ -1,19 +1,19 @@
 {
   "id": "valid-10-reasoning-effort-ultra",
-  "description": "R_strategy with debate, ultra effort, provenance_key",
-  "input": "LAR:T=now,C=obs,L=0.95,V=verified_tool,R=1,R_raw=6,R_scale=6,R_label=ultra,R_strategy=debate,provenance_key=0xABC...123",
+  "description": "Full R-register and semantic overlay: passive routing, validated tools, graph orchestration, relational memory, deterministic strategy, crossref plausibility",
+  "input": "LAR:T=now,C=obs,L=0.95,V=verified_tool,R=passive,R_raw=validated,R_scale=graph,R_label=relational,R_strategy=deterministic,R_plausibility=crossref",
   "expected": {
     "LAR-1": {
       "T": "now",
       "C": "obs",
       "L": 0.95,
       "V": "verified_tool",
-      "R": 1.0,
-      "R_raw": 6,
-      "R_scale": 6,
-      "R_label": "ultra",
-      "R_strategy": "debate",
-      "provenance_key": "0xABC...123"
+      "R": "passive",
+      "R_raw": "validated",
+      "R_scale": "graph",
+      "R_label": "relational",
+      "R_strategy": "deterministic",
+      "R_plausibility": "crossref"
     }
   }
 }

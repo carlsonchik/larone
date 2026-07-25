@@ -1,0 +1,10 @@
+{
+  "id": "enum-R_raw-passthrough",
+  "description": "Enum coverage: R_raw=passthrough",
+  "input": "LAR:R_raw=passthrough",
+  "expected": {
+    "LAR-1": {
+      "R_raw": "passthrough"
+    }
+  }
+}

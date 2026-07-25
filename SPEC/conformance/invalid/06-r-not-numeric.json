@@ -1,6 +1,6 @@
 {
   "id": "invalid-06-r-not-numeric",
-  "description": "R value is not numeric",
+  "description": "R value is not a valid routing enum (R is now enum, not numeric)",
   "input": "LAR:R=high",
-  "error": "INVALID_LIKELIHOOD"
+  "error": "INVALID_ENUM"
 }

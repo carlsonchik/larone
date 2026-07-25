@@ -1,0 +1,10 @@
+{
+  "id": "enum-R_raw-structured",
+  "description": "Enum coverage: R_raw=structured",
+  "input": "LAR:R_raw=structured",
+  "expected": {
+    "LAR-1": {
+      "R_raw": "structured"
+    }
+  }
+}

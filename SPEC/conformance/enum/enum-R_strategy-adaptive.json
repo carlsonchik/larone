@@ -1,0 +1,10 @@
+{
+  "id": "enum-R_strategy-adaptive",
+  "description": "Enum coverage: R_strategy=adaptive",
+  "input": "LAR:R_strategy=adaptive",
+  "expected": {
+    "LAR-1": {
+      "R_strategy": "adaptive"
+    }
+  }
+}

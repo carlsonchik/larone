@@ -1,0 +1,10 @@
+{
+  "id": "enum-R_plausibility-confidence",
+  "description": "Enum coverage: R_plausibility=confidence",
+  "input": "LAR:R_plausibility=confidence",
+  "expected": {
+    "LAR-1": {
+      "R_plausibility": "confidence"
+    }
+  }
+}

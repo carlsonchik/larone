@@ -1,7 +1,7 @@
 {
   "id": "valid-07-reasoning-effort-full",
-  "description": "Full R_strategy with cot (chain-of-thought)",
-  "input": "LAR:T=now,S=here,C=inf,E=derived,L=0.78,V=unverified,R=0.83,R_raw=5,R_scale=6,R_label=high,R_strategy=cot",
+  "description": "Full R-register: moderate routing, structured tools, chain orchestration, ephemeral memory, temperature strategy, confidence plausibility",
+  "input": "LAR:T=now,S=here,C=inf,E=derived,L=0.78,V=unverified,R=moderate,R_raw=structured,R_scale=chain,R_label=ephemeral,R_strategy=temperature,R_plausibility=confidence",
   "expected": {
     "LAR-1": {
       "T": "now",
@@ -10,11 +10,12 @@
       "E": "derived",
       "L": 0.78,
       "V": "unverified",
-      "R": 0.83,
-      "R_raw": 5,
-      "R_scale": 6,
-      "R_label": "high",
-      "R_strategy": "cot"
+      "R": "moderate",
+      "R_raw": "structured",
+      "R_scale": "chain",
+      "R_label": "ephemeral",
+      "R_strategy": "temperature",
+      "R_plausibility": "confidence"
     }
   }
 }

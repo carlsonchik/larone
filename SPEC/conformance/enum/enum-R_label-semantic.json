@@ -1,0 +1,10 @@
+{
+  "id": "enum-R_label-semantic",
+  "description": "Enum coverage: R_label=semantic",
+  "input": "LAR:R_label=semantic",
+  "expected": {
+    "LAR-1": {
+      "R_label": "semantic"
+    }
+  }
+}

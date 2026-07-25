@@ -1,13 +1,13 @@
 {
   "id": "valid-08-reasoning-effort-minimal",
-  "description": "Minimal R_strategy with reflection",
-  "input": "LAR:C=inf,L=0.6,R=0.5,R_strategy=reflection",
+  "description": "Minimal R-register: cognitive stance + likelihood + aggressive routing + adaptive strategy",
+  "input": "LAR:C=inf,L=0.6,R=aggressive,R_strategy=adaptive",
   "expected": {
     "LAR-1": {
       "C": "inf",
       "L": 0.6,
-      "R": 0.5,
-      "R_strategy": "reflection"
+      "R": "aggressive",
+      "R_strategy": "adaptive"
     }
   }
 }

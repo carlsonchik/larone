@@ -1,0 +1,10 @@
+{
+  "id": "enum-R_strategy-temperature",
+  "description": "Enum coverage: R_strategy=temperature",
+  "input": "LAR:R_strategy=temperature",
+  "expected": {
+    "LAR-1": {
+      "R_strategy": "temperature"
+    }
+  }
+}
