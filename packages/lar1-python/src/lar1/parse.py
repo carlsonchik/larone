@@ -1,23 +1,15 @@
-"""Parse LAR-1 compact strings."""
+"""Parse LAR-1 compact strings (v0.4 — includes R-register enums)."""
 
 from __future__ import annotations
 
 from lar1.enums import ENUMS, PREFIX, VALID_KEYS, Lar1Fields
 from lar1.errors import Lar1ParseError
 
-STRATEGY_ENUM = frozenset({"cot", "tot", "debate", "tool-use", "reflection", "intuition"})
-
 
 def _assert_enum(key: str, value: str) -> str:
     allowed = ENUMS[key]
     if value not in allowed:
         raise Lar1ParseError("INVALID_ENUM", f"Invalid {key}={value}")
-    return value
-
-
-def _assert_strategy(value: str) -> str:
-    if value not in STRATEGY_ENUM:
-        raise Lar1ParseError("INVALID_ENUM", f"Invalid R_strategy={value}")
     return value
 
 
@@ -31,14 +23,10 @@ def _parse_likelihood(raw: str) -> float:
     return n
 
 
-def _parse_positive_int(raw: str) -> int:
-    try:
-        n = int(raw)
-    except ValueError:
-        raise Lar1ParseError("INVALID_ENUM", f"Invalid integer value: {raw}") from None
-    if n < 0:
-        raise Lar1ParseError("INVALID_ENUM", f"Value out of range: {raw}")
-    return n
+# All R-register keys that go through enum validation
+R_ENUM_KEYS: frozenset[str] = frozenset({
+    "R", "R_raw", "R_scale", "R_label", "R_strategy", "R_plausibility",
+})
 
 
 def parse(compact: str) -> Lar1Fields:
@@ -75,14 +63,10 @@ def parse(compact: str) -> Lar1Fields:
 
         if key == "L":
             data["L"] = _parse_likelihood(value)
-        elif key == "R":
-            data["R"] = _parse_likelihood(value)
-        elif key in ("R_raw", "R_scale"):
-            data[key] = _parse_positive_int(value)  # type: ignore[literal-required]
-        elif key == "R_strategy":
-            data["R_strategy"] = _assert_strategy(value)
-        elif key in ("R_label", "provenance_key"):
-            data[key] = value  # type: ignore[literal-required]
+        elif key in R_ENUM_KEYS:
+            data[key] = _assert_enum(key, value)  # type: ignore[literal-required]
+        elif key == "provenance_key":
+            data["provenance_key"] = value  # type: ignore[literal-required]
         elif key in ENUMS:
             data[key] = _assert_enum(key, value)  # type: ignore[literal-required]
 
